@@ -1,49 +1,44 @@
-# yogendra-swaroop.tech
+# Hey, I'm Yogendra 👋
 
-A hand-built, dependency-free static site — no Jekyll, no build step, no framework.
-Just HTML/CSS/JS you can upload straight to GitHub Pages (or any static host).
+I started out breaking into systems for a living — red team, exploits, the whole "try harder" grind —
+before switching sides to defend a fintech platform used by millions. These days I spend more time
+reading pull requests than writing exploits, but the instinct hasn't changed: find the flaw before
+someone with worse intentions does.
 
-## Structure
+I'm currently a **Senior Application Security Engineer**, leading security engineering across
+application, cloud and DevSecOps domains for a platform with 2M+ active users — defining the security
+roadmap, building the tooling that makes secure-by-default the path of least resistance, and reducing
+open vulnerabilities by 90% along the way. Before that, I was on the other side of the table: red
+teaming, penetration testing, and training people to break things properly.
 
-```
-/
-├── index.html                    Homepage
-├── about.html                    About / résumé / contact
-├── 404.html                      Custom 404
-├── sitemap.xml                   Sitemap (edit manually per page)
-├── robots.txt
-├── CNAME                         Custom domain for GitHub Pages
-├── Yogendra-Srivastava-Resume.pdf
-├── blog/
-│   ├── index.html                All-posts listing (with tag filter)
-│   ├── oscp-101-the-hard-way.html
-│   └── save-your-social-media.html
-├── series/
-│   ├── index.html                Series listing
-│   ├── offensive-security-101.html
-│   └── detection-engineering.html
-└── assets/
-    ├── css/style.css             The entire design system
-    ├── js/main.js                Nav, scroll reveal, reading progress, copy buttons
-    └── img/
-```
+## What I actually do
 
-## Publishing a new post
+- 🔐 **AppSec & DevSecOps** — secure SDLC, CI/CD security, SAST/SCA, SBOM, supply chain security
+- ☁️ **Cloud Security** — AWS/GCP, IAM, WAFs, CSPM, container and Kubernetes security
+- 🎯 **Offensive Security** — red teaming, penetration testing, VAPT, OSCP-certified
+- 🤖 **Security Automation** — turning manual triage into fast, in-workflow tooling
+- 📋 **Security Leadership** — building programs, mentoring engineers, and making the case for
+  security without slowing everyone else down
 
-1. Duplicate `blog/oscp-101-the-hard-way.html` (or `save-your-social-media.html` for a
-   post with no series/hero image) as `blog/your-post-slug.html`.
-2. Update the `<title>`, meta tags, `post-header`, and `post-content`.
-3. If it belongs to a series, keep the `post-series-badge` and `series-nav` block —
-   add your new post as a list item there **and** in the matching `series/*.html` page.
-4. Add a card to `blog/index.html` (and `index.html` if it should be featured) and a
-   `<url>` entry to `sitemap.xml`.
+## Currently
 
-## Deploying to GitHub Pages
+Sharing what I've learned through structured, multi-part series rather than one-off posts — offensive
+security fundamentals, cloud security, Kubernetes security, and security engineering as a craft — on
+[**yogendra-swaroop.tech**](https://yogendra-swaroop.tech).
 
-1. Push this folder's contents to the root of a new repo (or `docs/` — update Pages
-   settings accordingly).
-2. In repo Settings → Pages, set the source branch/folder.
-3. `CNAME` is already set to `yogendra-swaroop.tech` — point your domain's DNS at
-   GitHub Pages, or delete the file to use the default `*.github.io` URL.
+## Outside of work
 
-No `npm install`, no `bundle install` — open `index.html` in a browser and it works.
+Brown belt in Karate, occasional drummer (drums, cajon, congo), and a regular at security meetups like
+null and BSides — mostly because I like meeting people and learning from them.
+
+## Elsewhere
+
+- 🌐 [yogendra-swaroop.tech](https://yogendra-swaroop.tech) — my writing
+- 💼 [LinkedIn](https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/)
+- 🐙 [GitHub](https://github.com/yogi1426)
+- ✉️ [yogendra.swaroop.srivastava@gmail.com](mailto:yogendra.swaroop.srivastava@gmail.com)
+
+---
+
+*This repo is the source for my personal site — a hand-built, dependency-free static build (no
+framework, no build step) hosted on GitHub Pages.*
