@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OSCP 101 — The Hard Way · Yogendra Swaroop Srivastava</title>
+<meta name="description" content="My OSCP journey — the mindset, the grind, and what &quot;Try Harder&quot; actually means in practice.">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="canonical" href="https://yogendra-swaroop.tech/blog/oscp-101-the-hard-way.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSCP 101 — The Hard Way">
+<meta property="og:description" content="My OSCP journey — the mindset, the grind, and what &quot;Try Harder&quot; actually means in practice.">
+<meta property="og:image" content="/assets/img/oscp-certs.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div class="bg-fx"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Y</span>
+      <span>Yogendra<span class="brand-dot">.</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/blog/" class="active">Blog</a>
+      <a href="/series/">Series</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-link" href="https://github.com/yogi1426" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+      <a class="btn btn-primary btn-sm" href="/about.html#contact">Get in touch</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="site-nav-mobile" id="site-nav-mobile">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/series/">Series</a>
+    <a href="/about.html">About</a>
+  </nav>
+</header>
+
+<main id="main">
+  <article>
+    <div class="post-hero-img" style="background-image:url(/assets/img/oscp-certs.jpg)"></div>
+    <div class="post-wrap">
+      <header class="post-header">
+        <a class="post-series-badge" href="/series/offensive-security-101.html"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/><line x1="9" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/></svg> Offensive Security 101</a>
+        <h1 class="post-title">OSCP 101 — The Hard Way</h1>
+        <p class="post-description">My OSCP journey — the mindset, the grind, and what "Try Harder" actually means in practice.</p>
+        <div class="post-meta">
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Jan 4, 2020</span>
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> 7 min read</span>
+        </div>
+      </header>
+
+      <nav class="series-nav">
+        <div class="series-nav-title"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><rect x="2" y="17" width="6" height="4" rx="1"/><rect x="16" y="17" width="6" height="4" rx="1"/><path d="M12 6v5M12 11H5v6M12 11h7v6"/></svg> Offensive Security 101 — part 1 of 6</div>
+        <ol>
+          <li class="current"><a href="/blog/oscp-101-the-hard-way.html">OSCP 101 — The Hard Way</a></li>
+          <li>Recon Like You Mean It <span class="mono" style="color:var(--text-dim); font-size:.8rem;">— coming soon</span></li>
+        </ol>
+      </nav>
+
+      <div class="post-content">
+        <p>Thank you for coming here. This post is about my experience in the OSCP journey — what I learned, doing hard work plus smart work, and trying harder.</p>
+
+        <blockquote>"Every battle is won before it is fought." — Sun Tzu</blockquote>
+
+        <h2>Pre-Enrollment</h2>
+        <p>Before you even enroll, spend time getting comfortable with the basics: networking fundamentals, Linux command line, and enough scripting to automate the boring parts. The labs punish people who skip this step.</p>
+
+        <h2>The Basic Takeaways</h2>
+        <ol>
+          <li>Buy the PWK/OSCP VIP membership — it'll boost your confidence and it's not too expensive in the long run.</li>
+          <li>Don't switch off OSCP-like mindset in day-to-day work.</li>
+          <li>Watch <a href="#">IppSec's</a> videos on YouTube for lab walkthroughs.</li>
+          <li>Do lab buffer overflow before taking the exam.</li>
+          <li>Keep your weapons ready — remember one thing, "Every battle is won before it is fought."</li>
+        </ol>
+
+        <h3>Pre-Enrollment: The Mindset</h3>
+        <p>One month before enrolling, I worked to prepare myself for the labs. I stayed up with my friends a little more to vent for the gaint and expensive course. Mostly, people ask me to go for advance labs directly. But hey, I am a warrior (yes, I like war). After discussing with my mentor, because he had cleared OSCP in 30% and tipped a great page, I decided to challenge myself this time.</p>
+
+        <h3>Post-Enrollment: In the Labs</h3>
+        <p>Post-enrollment would be all about OSCP labs and exam preparations, and keeping your cheatsheets ready. I finished the lab videos and PDF, and jumped into the labs. Well, I was not able to pwn even a single machine by the evening. I took a short break and came back, rooted 2 machines in the next few hours. I was happy.</p>
+        <p>I made a prime target of rooting at least two machines everyday for the first week, and trying at least 3 machines every day. I divided my slot of 5–5 hours, and then I fell sick because I had left everything and was spending too much time on the terminal. Even after falling sick I was still trying to pwn machines. After 2 days I was okay. I started again, and now working smartly — i.e. keeping health and labs balanced. I had rooted 15 boxes in the very first week, and that was quite a good progress.</p>
+        <p>Here, I would suggest that setting short targets is better, and in the labs you should know one day before what machines you are going to try the next day.</p>
+
+        <h3>Time Between Labs Ending and Exam</h3>
+        <p>What you should do when the labs have ended and your exam is a week later — revisit your notes, redo the buffer overflow, and make sure your report template is ready to go so you're not writing it under exam-week stress.</p>
+
+        <h3>Exam Day</h3>
+        <p>For what all challenges you should be prepared for — a calm mind, a solid methodology, and the discipline to step away from a box that isn't moving instead of tunnel-visioning for hours.</p>
+
+        <h2>Closing Thoughts</h2>
+        <p>Thank you for your time. Please do share and stay safe. Any questions — contact me on <a href="mailto:yogendra.swaroop.srivastava@gmail.com">yogendra.swaroop.srivastava@gmail.com</a>.</p>
+      </div>
+
+      <footer class="post-footer">
+        <div class="post-tags">
+          <a href="/blog/#oscp">#OSCP</a>
+          <a href="/blog/#security">#Security</a>
+          <a href="/blog/#pentesting">#Pentesting</a>
+          <a href="/blog/#infosec">#InfoSec</a>
+        </div>
+        <div class="post-share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=OSCP%20101%20%E2%80%94%20The%20Hard%20Way&url=https://yogendra-swaroop.tech/blog/oscp-101-the-hard-way.html" target="_blank" rel="nofollow noopener"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://yogendra-swaroop.tech/blog/oscp-101-the-hard-way.html" target="_blank" rel="nofollow noopener"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6z"/></svg></a>
+        </div>
+      </footer>
+
+      <section class="author-box">
+        <img src="/assets/img/avatar.jpeg" alt="Yogendra Swaroop Srivastava">
+        <div>
+          <div class="author-box-name">Yogendra Swaroop Srivastava</div>
+          <p>Senior security engineer writing about application security, offensive tradecraft and detection engineering.</p>
+        </div>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="footer-about">
+      <div class="brand">
+        <span class="brand-mark">Y</span>
+        <span>Yogendra Swaroop Srivastava</span>
+      </div>
+      <p>Senior security engineer writing about application security, offensive tradecraft and detection engineering.</p>
+      <div class="footer-social">
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6z"/></svg></a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener" aria-label="Twitter"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+        <a href="mailto:yogendra.swaroop.srivastava@gmail.com" aria-label="Email"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/series/">Series</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="footer-col">
+        <h4>Elsewhere</h4>
+        <a href="/Yogendra-Srivastava-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener">Twitter</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap site-footer-bottom">
+    <p>&copy; <span id="year"></span> Yogendra Swaroop Srivastava. All rights reserved.</p>
+    <p>Built by hand — no framework, no bloat.</p>
+  </div>
+</footer>
+
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
