@@ -55,45 +55,44 @@
     <div class="wrap">
       <div class="filter-bar">
         <button class="filter-chip active" data-filter="all">All</button>
-        <button class="filter-chip" data-filter="aws">AWS</button>
         <button class="filter-chip" data-filter="cloud-security">Cloud Security</button>
-        <button class="filter-chip" data-filter="appsec">AppSec</button>
+        <button class="filter-chip" data-filter="aws-security">AWS Security</button>
+        <button class="filter-chip" data-filter="web-application-security">Web Application Security</button>
         <button class="filter-chip" data-filter="oscp">OSCP</button>
         <button class="filter-chip" data-filter="pentesting">Pentesting</button>
-        <button class="filter-chip" data-filter="account-security">Account Security</button>
-        <button class="filter-chip" data-filter="phishing">Phishing</button>
+        <button class="filter-chip" data-filter="infosec">InfoSec</button>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:0;">
-        <a class="post-list-row reveal" data-tags="aws,cloud-security,iam" href="/blog/aws-mfa.html">
-          <span class="plr-date mono">Feb 15, 2020</span>
+        <a class="post-list-row reveal" data-tags="cloud-security,security,aws-security" href="/blog/aws-mfa.html">
+          <span class="plr-date mono">Apr 16, 2022</span>
           <div class="plr-body">
-            <h3>Setting Up MFA on AWS the Right Way</h3>
-            <p>Why root-account MFA alone isn't enough, and how to actually enforce multi-factor authentication across an AWS organization.</p>
+            <h3>Enforcing MFA Policy on the IAM Users in an AWS Account</h3>
+            <p>How I used Lambda, CloudFormation and EventBridge to automatically enforce MFA on every IAM user across an AWS account.</p>
           </div>
           <svg class="icon plr-arrow" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <a class="post-list-row reveal" data-tags="appsec,owasp,beginners" href="/blog/appsec-101.html">
-          <span class="plr-date mono">Jan 10, 2020</span>
+        <a class="post-list-row reveal" data-tags="web-application-security,security,pentesting,infosec" href="/blog/appsec-101.html">
+          <span class="plr-date mono">Jun 8, 2020</span>
           <div class="plr-body">
             <h3>Getting Started With Web Application Security</h3>
-            <p>A practical starting point for web application security — how to think about it, what to learn first, and where most beginners go wrong.</p>
+            <p>My resources and personal experience from getting started in Web Application Security — XSS, SQLi, CSRF, IDOR, XXE, SSRF and more.</p>
           </div>
           <svg class="icon plr-arrow" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <a class="post-list-row reveal" data-tags="oscp,pentesting,security,infosec" href="/blog/oscp-101-the-hard-way.html">
+        <a class="post-list-row reveal" data-tags="oscp,security,pentesting,infosec" href="/blog/oscp-101-the-hard-way.html">
           <span class="plr-date mono">Jan 4, 2020</span>
           <div class="plr-body">
-            <h3>OSCP 101 — The Hard Way</h3>
-            <p>My OSCP journey — the mindset, the grind, and what "Try Harder" actually means in practice.</p>
+            <h3>OSCP 101- The Hard Way</h3>
+            <p>My experience in the OSCP journey — what I learned, doing hard work plus smart work, and Trying Harder.</p>
           </div>
           <svg class="icon plr-arrow" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <a class="post-list-row reveal" data-tags="account-security,phishing,2fa" href="/blog/save-your-social-media.html">
+        <a class="post-list-row reveal" href="/blog/save-your-social-media.html">
           <span class="plr-date mono">Jan 3, 2020</span>
           <div class="plr-body">
             <h3>Save Your Social Media</h3>
-            <p>How account takeovers actually happen — phishing and brute force — and the two controls that stop most of them.</p>
+            <p>Save your Social Media Accounts — a look at how phishing and brute force actually compromise accounts.</p>
           </div>
           <svg class="icon plr-arrow" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
