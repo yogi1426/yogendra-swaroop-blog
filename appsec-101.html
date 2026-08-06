@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Getting Started With Web Application Security · Yogendra Swaroop Srivastava</title>
+<meta name="description" content="Web Application Security">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="canonical" href="https://yogendra-swaroop.tech/blog/appsec-101.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Getting Started With Web Application Security">
+<meta property="og:description" content="Web Application Security">
+<meta property="og:image" content="/assets/img/appsec-101.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div class="bg-fx"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Y</span>
+      <span>Yogendra<span class="brand-dot">.</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/blog/" class="active">Blog</a>
+      <a href="/series/">Series</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-link" href="https://github.com/yogi1426" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+      <a class="btn btn-primary btn-sm" href="/about.html#contact">Get in touch</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="site-nav-mobile" id="site-nav-mobile">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/series/">Series</a>
+    <a href="/about.html">About</a>
+  </nav>
+</header>
+
+<main id="main">
+  <article>
+    <div class="post-hero-img" style="background-image:url(/assets/img/appsec-101.jpg)"></div>
+    <div class="post-wrap">
+      <header class="post-header">
+        <h1 class="post-title">Getting Started With Web Application Security</h1>
+        <div class="post-meta">
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Jun 8, 2020</span>
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> 14 min read</span>
+        </div>
+      </header>
+
+      <div class="post-content">
+        <p>First of all, I would like to thank you for coming here. This Blog is mainly focused on the people who are willing to get into Web Application Security. I will be sharing my resources and also my personal Experience from where I started learning Web Application Security.</p>
+
+        <h3>Let's get started.</h3>
+        <p>I have heard many of them saying that you don't really need Development knowledge to get started with security. But, this is just partially true. I believe if you can code, you can break too, and that is how you learn security the hard way.
+        Web Application Security mainly comprises of Web Application Vulnerabilities which is exploited by an attacker mostly when there is a mistake in the developer's code.</p>
+
+        <h3>Pre-requisite to get started into Web Application Security.</h3>
+        <p>So this is complete with my own experience, if you know a basic development you will be able to understand the vulnerability in a better way and also you will try to attack the application on keeping the developer's perspective too.
+        I strongly recommend starting with Basic Web Development. Learn the Basics of programming languages like PHP, MySql, Javascript.
+        When you are done with the basics of web development and once you will study Web Vulnerabilities, it will be easy for you to get in-depth exposure to the application.</p>
+
+        <h3>How I started:</h3>
+        <p>I had prior knowledge of Java Programming because I had learned in my school times. I did Python coding for a few months too so learning Languages like PHP was not much trouble for me. In August 2017, I started learning basic Web development. I followed lots of resources and courses from Udemy and another training website. After 2 months of proper Web Development, I was able to develop a website using PHP, MySQL, Javascript. I also learned a few basics of MongoDB, NodeJS, Jquery, Bootstrap. I was more or less now comfortable with Web Development. I took a project of my cousin to develop a website. I developed a website from Scratch using everything I had learned in my early stages.</p>
+        <blockquote>Link to the website-: <a href="http://researcheers.com" target="_blank" rel="noopener">http://researcheers.com</a></blockquote>
+
+        <p>The website got up in February 2018. The website which I had developed was missing the most important part i.e Security. But by then I didn't know anything about Web Application Security.</p>
+
+        <p>Can you guess My next target?</p>
+
+        <h3>Time to Get started with Web Application Security.</h3>
+
+        <p>I started with a few free resources at first. I just took the overview of Basic vulnerabilities for a few weeks.
+        OWASP Top 10- When you are getting into Web Application Security, you need to thoroughly know about Owasp top 10 asked in almost every security interview.
+        For OWASP Top 10- I also went through the Troy Hunt's Course on Pluralsight-: OWASP Top 10 2013-The Big Picture, which helped me to get an idea about basic top ten vulnerabilities.</p>
+
+        <p>I then started with one vulnerability and would go through different blogs, resources, and Labs.
+        I took around 1.5 months to complete all the basic vulnerabilities.</p>
+
+        <blockquote>PortSwigger's Web Security Academy is one of the best resources I have come across lately, which is beginner-friendly and provides in-depth insights into vulnerabilities.</blockquote>
+        <blockquote>Web Application Hacker's Handbook(WAHH) - This is called the Bible for those who are just getting started with Web Security Academy.</blockquote>
+        <blockquote>Owasp Testing Guide.</blockquote>
+        <blockquote>Modern Web Penetration Testing by Prakhar Prasad-:
+        If you have got your basics clear and you want to study little extra and advanced stuff, then this is the book for you. Very Well documented and also the author has shared a few test cases to help you understand the Vulnerability in more depth. This is the only book that I keep in my backpack always.</blockquote>
+
+        <h3>The above-mentioned resources are must read and one of the most recommended guides to get started. Please consider this first before going through the below-mentioned resources.</h3>
+
+        <p>I would like to Mention Few Resources(Vulnerability wise) which I followed and which had helped me to get started.</p>
+
+        <h3>XSS-:</h3>
+        <p>Cross-Site Scripting is one of the most well-known vulnerabilities in Web Application Security, and also expected by every security researcher to have good command over it.</p>
+        <h3>Resources:-</h3>
+        <ol>
+          <li>BruteLogic Blogs- <a href="https://brutelogic.com.br/blog/" target="_blank" rel="noopener">https://brutelogic.com.br/blog/</a>
+          <p>The blogs on the website had helped me a lot in understanding the basics of XSS, its context, and its exploitability.</p></li>
+          <li>Ashar Javed's XSS Youtube videos-:
+          <p>Links-:</p>
+          <p><a href="https://www.youtube.com/watch?v=TKn5qdti66c&t=3364s" target="_blank" rel="noopener">https://www.youtube.com/watch?v=TKn5qdti66c&t=3364s</a></p>
+          <p><a href="https://www.youtube.com/watch?v=LLtOJNeMp7c" target="_blank" rel="noopener">https://www.youtube.com/watch?v=LLtOJNeMp7c</a></p>
+          <p>He is one of the great researchers who has done lots of research on XSS. I strongly recommend going through his videos.</p></li>
+          <li>Ajin Abraham XSS course from Udemy:
+          <p>He is one of the most well known and finest researchers. If by chance you have an idea of Malware Analysis, MobSF- a very famous tool is one of its research. Though his course on Udemy is paid but it is worth taking.</p></li>
+          <li>SecurityIdiots.
+          <p>Link: <a href="http://www.securityidiots.com/" target="_blank" rel="noopener">http://www.securityidiots.com/</a></p></li>
+        </ol>
+
+        <h3>Links to Practice XSS-:</h3>
+        <ol>
+          <li><a href="https://xss-quiz.int21h.jp/" target="_blank" rel="noopener">https://xss-quiz.int21h.jp/</a></li>
+          <li><a href="https://xss-game.appspot.com/" target="_blank" rel="noopener">https://xss-game.appspot.com/</a></li>
+        </ol>
+
+        <h3>SQL Injection:-</h3>
+        <p>The most common and most critical vulnerability which exists till date. With SQLi, your entire database is at stake.</p>
+
+        <h3>Resources-:</h3>
+        <ol>
+          <li>SQLi Labs by AudiSec-: This is one of the best and in-depth resources that have got me to understand the SQL injection in depth. It has got Labs with around more than 75 challenges. Starting from Error Based SQLi and covering all tracks in SQLi like Blind, Time Based, Second Order SQLi, you name and you get everything here.
+          <p>Link: <a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a></p></li>
+          <li>SecurityIdiots-
+          <p>Link-: <a href="http://www.securityidiots.com/" target="_blank" rel="noopener">http://www.securityidiots.com/</a> <a href="http://leettime.net/sqlninja.com/" target="_blank" rel="noopener">http://leettime.net/sqlninja.com/</a></p></li>
+          <li>WAHH, Owasp testing guide.</li>
+        </ol>
+
+        <h3>CSRF - Cross-Site Request Forgery.</h3>
+        <p>CSRF is reported less nowadays due to the introduction of frameworks like Django. It was A7 in OWASP Top 10 2013.</p>
+        <h3>Resources-</h3>
+        <ol>
+          <li>Troy Hunt - <a href="https://www.troyhunt.com/understanding-csrf-video-tutorial/" target="_blank" rel="noopener">https://www.troyhunt.com/understanding-csrf-video-tutorial/</a></li>
+          <li>Link: <a href="https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/csrf.html" target="_blank" rel="noopener">https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/csrf.html</a></li>
+        </ol>
+
+        <h3>IDOR-: Insecure Direct Object Reference.</h3>
+        <p>Resources:</p>
+        <ol>
+          <li><a href="https://www.bugcrowd.com/blog/how-to-find-idor-insecure-direct-object-reference-vulnerabilities-for-large-bounty-rewards/" target="_blank" rel="noopener">https://www.bugcrowd.com/blog/how-to-find-idor-insecure-direct-object-reference-vulnerabilities-for-large-bounty-rewards/</a></li>
+          <li><a href="https://blog.detectify.com/2016/05/25/owasp-top-10-insecure-direct-object-reference-4/" target="_blank" rel="noopener">https://blog.detectify.com/2016/05/25/owasp-top-10-insecure-direct-object-reference-4/</a></li>
+        </ol>
+
+        <h3>Other Basic Vulnerabilities-:</h3>
+        <ol>
+          <li>Local File Inclusion/Remote File Inclusion</li>
+          <li>OS Command Injection</li>
+          <li>Privilege Escalation</li>
+        </ol>
+        <p>You can follow Portswiggers Lab, WAHH, OWASP Testing Guide for above these vulnerabilities.</p>
+
+        <h3>Places to practice:-</h3>
+        <p>Once you have done the basic vulnerabilities, you can start working with online projects like- Owasp Web Goat, DVWA, Bwapp, Multidae, JuiceShop, and many more.</p>
+
+        <blockquote>"Hack to Learn, Not learn to Hack".
+        When you do hands-on, you will get better exposure to every vulnerability. I strongly recommend solving as many challenges as you can.</blockquote>
+
+        <h3>Advanced Vulnerabilities-:</h3>
+
+        <h3>1. XXE attack-</h3>
+        <p>The most important and critical bugs reported these days and which eventually leads to a great bounty amount.</p>
+        <p>But before starting with XXE attacks, you should have basic knowledge of XML and its components like DTDs.</p>
+        <p>At first, this vulnerability has troubled me a lot to understand, but the Modern Web Penetration Testing book helped me to understand the vulnerability and its impact. The book gave me a clear understanding of the XXE attacks.</p>
+        <p>For Labs, I followed PortSwigger, which gave me confidence.</p>
+
+        <h3>2. SSRF -Server Side Request Forgery.</h3>
+        <p>The vulnerability found by Orange Tsai and was presented in BlackHat. A critical vulnerability with a beautiful impact in itself.</p>
+
+        <h3>Resources-:</h3>
+        <ol>
+          <li>Portswigger</li>
+          <li>Modern Web Penetration Testing by Prakhar Prasad.</li>
+          <li>Links-:
+            <p>a. <a href="https://medium.com/poka-techblog/server-side-request-forgery-ssrf-attacks-part-1-the-basics-a42ba5cc244a" target="_blank" rel="noopener">https://medium.com/poka-techblog/server-side-request-forgery-ssrf-attacks-part-1-the-basics-a42ba5cc244a</a></p>
+            <p>b. <a href="https://medium.com/@madrobot/ssrf-server-side-request-forgery-types-and-ways-to-exploit-it-part-1-29d034c27978" target="_blank" rel="noopener">https://medium.com/@madrobot/ssrf-server-side-request-forgery-types-and-ways-to-exploit-it-part-1-29d034c27978</a></p>
+            <p>c. <a href="https://www.netsparker.com/blog/web-security/server-side-request-forgery-vulnerability-ssrf/" target="_blank" rel="noopener">https://www.netsparker.com/blog/web-security/server-side-request-forgery-vulnerability-ssrf/</a></p>
+            <p>d. <a href="https://blog.detectify.com/2019/01/10/what-is-server-side-request-forgery-ssrf/" target="_blank" rel="noopener">https://blog.detectify.com/2019/01/10/what-is-server-side-request-forgery-ssrf/</a></p>
+            <p>e. <a href="https://www.acunetix.com/blog/articles/server-side-request-forgery-vulnerability/" target="_blank" rel="noopener">https://www.acunetix.com/blog/articles/server-side-request-forgery-vulnerability/</a></p>
+            <p>f. <a href="https://www.blackhat.com/docs/us-17/thursday/us-17-Tsai-A-New-Era-Of-SSRF-Exploiting-URL-Parser-In-Trending-Programming-Languages.pdf" target="_blank" rel="noopener">https://www.blackhat.com/docs/us-17/thursday/us-17-Tsai-A-New-Era-Of-SSRF-Exploiting-URL-Parser-In-Trending-Programming-Languages.pdf</a></p>
+          </li>
+        </ol>
+
+        <h3>Other Advanced Vulnerabilities-:</h3>
+        <p>Web Cache Poisoning, Server Side Template Injection, CORS Misconfiguration, HTTP Request Smuggling.</p>
+        <blockquote>Portswigger is one of the best resources which I could mention right now for the above mentioned advanced vulnerabilities.</blockquote>
+
+        <h3>More sites to practice:-</h3>
+        <p>There are plenty of websites online currently which has got great challenges to practice. Few of them are-:</p>
+        <ol>
+          <li>Root-me.org</li>
+          <li>HackerOne 101</li>
+          <li>Hackthebox</li>
+        </ol>
+
+        <h3>Importance of Python-:</h3>
+        <p>Python is the most popular programming language amongst security researchers and also my favorite language. I strongly recommend every beginner to at least get basic hands-on experience in Python. I started learning python once I had decided to be in Security. HackerRank is the best place to solve Python challenges which will also help you to know various functions of python and also it is going to help you sharpen your logical skills. Python will help you to automate tasks which might be useful when you are doing Bug bounties.</p>
+
+        <h3>Books for Python-:</h3>
+        <ol>
+          <li>Python- The Hard Way</li>
+          <li>Automating the boring stuff with Python.</li>
+        </ol>
+
+        <p>If you are not a reader but like to watch videos, you can also go through the online Courses like:-</p>
+        <ol>
+          <li>Python for security professional on Cybrary</li>
+          <li>Python for Security on Pentester Academy.</li>
+        </ol>
+
+        <p>There are a few more development focussed courses on Udemy which will help you to understand Python in depth.</p>
+
+        <p>I have tried to mention every resource and link which has helped me to get started with Web Application Security. Your Googling skills will help you a lot with security. If you wish you can google and can easily get more resources to learn.
+        After you have got the basics clear and good understanding of the vulnerabilities, you should put your knowledge to practice in real-time. I strongly recommend starting with Bug bounties. With Bug bounties, you face real-time challenges and once you get used to bug bounties there is no looking back. I would also Recommend following Hacktivities, follow the best hackers on Twitter/LinkedIn. Make this a habit to go through your twitter feed every day. You should start reading Hackerone publicly disclosed reports.
+        To find Hackerone publicly Disclosed reports-: <a href="http://h1.nobbd.de/" target="_blank" rel="noopener">http://h1.nobbd.de/</a></p>
+
+        <p>You can also follow a few telegram channel which will update you with the latest emerging bugs and technologies.</p>
+
+        <h3>Books for Bug hunting-:</h3>
+        <ol>
+          <li>Web Hacking 101 by Peter Yaworski</li>
+          <li>Real World Bug Hunting by Peter Yaworski.</li>
+        </ol>
+
+        <blockquote>One more important thing which I would like to mention is to "Be Patient". You will not learn everything overnight, it will take you months. Start Slowly but learn the hard way.</blockquote>
+
+        <p>This is all from my side for this blog. If you like the blog please do share.</p>
+        <h3>Thank you again for coming here.</h3>
+        <p>Feel free to connect with me on Twitter and LinkedIn.</p>
+      </div>
+
+      <footer class="post-footer">
+        <div class="post-tags">
+          <a href="/blog/#web-application-security">#Web Application Security</a>
+          <a href="/blog/#security">#Security</a>
+          <a href="/blog/#pentesting">#Pentesting</a>
+          <a href="/blog/#infosec">#InfoSec</a>
+        </div>
+        <div class="post-share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=Getting%20Started%20With%20Web%20Application%20Security&url=https://yogendra-swaroop.tech/blog/appsec-101.html" target="_blank" rel="nofollow noopener"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://yogendra-swaroop.tech/blog/appsec-101.html" target="_blank" rel="nofollow noopener"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6z"/></svg></a>
+        </div>
+      </footer>
+
+      <section class="author-box">
+        <img src="/assets/img/avatar.jpeg" alt="Yogendra Swaroop Srivastava">
+        <div>
+          <div class="author-box-name">Yogendra Swaroop Srivastava</div>
+          <p>Senior security engineer writing about application security, offensive tradecraft and detection engineering.</p>
+        </div>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="footer-about">
+      <div class="brand">
+        <span class="brand-mark">Y</span>
+        <span>Yogendra Swaroop Srivastava</span>
+      </div>
+      <p>Senior security engineer writing about application security, offensive tradecraft and detection engineering.</p>
+      <div class="footer-social">
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6z"/></svg></a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener" aria-label="Twitter"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+        <a href="mailto:yogendra.swaroop.srivastava@gmail.com" aria-label="Email"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/series/">Series</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="footer-col">
+        <h4>Elsewhere</h4>
+        <a href="/Yogendra-Srivastava-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener">Twitter</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap site-footer-bottom">
+    <p>&copy; <span id="year"></span> Yogendra Swaroop Srivastava. All rights reserved.</p>
+    <p>Built by hand — no framework, no bloat.</p>
+  </div>
+</footer>
+
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
