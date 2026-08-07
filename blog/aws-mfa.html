@@ -98,6 +98,8 @@
 
         <p>Before we dig deeper, In nutshell to understand our methodology, whenever we deploy our stack using Cloudformation template, a lambda function is created which makes a JSON Policy so that whenever there is a violation of our MFA, it automatically attaches the Enforce MFA Policy to an IAM User. As a result of which, IAM user is forced to setup Multi factor authentication. Once the policy is attached, our lambda triggers slack notification.</p>
 
+        <img src="/assets/img/deeper.jpg" alt="Macbook">
+
         <p>First things first, since our entire exercise is dependend on our Lambda function, Let's start with that. Below attached is the Lambda code template.</p>
 
         <p>We have defined two environment variables in Lambda's Configuration section which we have used in our Lambda function</p>
@@ -409,11 +411,19 @@ def is_policy_attached(user,userPolicyList):
           </li>
         </ul>
 
+        <img src="/assets/img/slack.png" alt="Macbook">
+
         <p>The classic use case which we encountered because of which our Lambda didn't work was that AWS constraints on how many policies(AWS Managed + Customer Managed) can be attached to an IAM User. We found that only 10 policies in total can be attached. So in case, there are 10 policies already attached, our objective to enforce MFA on IAM user who have not enabled MFA would fail badly.</p>
+
+        <img src="/assets/img/slack2.png" alt="Macbook">
 
         <p>In order to get this resolved, we have used <strong>get_attached_policy_count()</strong> function which will do the heavy lifting for us.</p>
 
+        <img src="/assets/img/take-a-break-break.gif" alt="Macbook">
+
         <p>Since we now understand the flow of our lambda function , Let's get our hands rolling on the Cloudformation template.</p>
+
+        <img src="/assets/img/lets-go.jpg" alt="Macbook">
 
         <p>Let's look at our CFT-:</p>
         <pre><code>{
@@ -558,6 +568,8 @@ def is_policy_attached(user,userPolicyList):
 }</code></pre>
         <p>You can see the resources tab in EnforceMFA Stack which shows what all resources were used by our Stackset.</p>
 
+        <img src="/assets/img/resources.png" alt="Macbook">
+
         <p><strong>Line 8 - 35:</strong></p>
         <blockquote>
           We have defined Parameters in <code>Parameters</code> section of Stacks. Our CFT is expecting following parameters:
@@ -581,6 +593,8 @@ def is_policy_attached(user,userPolicyList):
         <p>By Combining all the above blocks, we were able to achieve our main objective of getting our IAM users to setup Multi-factor authentication. Using Cloudformation stacksets helped us to Scale so that whenever new account is spin up, the same stack will be created, hence giving us better AWS security.</p>
 
         <p>Special Mentions : My Colleagues <strong>Siddharth</strong> and <strong>Hrushikesh</strong> for helping me whenever I get stuck.</p>
+
+        <img src="/assets/img/Thank-You.png" alt="Macbook">
 
         <p>Thank you for coming here and for you time. If you were able to gain even a little knowledge from my post, Do Share with others.
         Please feel free to connect with me on LinkedIn and Twitter.</p>
