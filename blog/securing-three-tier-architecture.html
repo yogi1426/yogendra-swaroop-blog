@@ -234,7 +234,7 @@
             <tr><td><strong>Repudiation</strong></td><td>User denies making a request</td><td>Access logs with IP, user agent, timestamp, request ID; tie to session</td></tr>
             <tr><td><strong>Information Disclosure</strong></td><td>Server version headers, error stack traces in responses</td><td>Strip <code>Server</code> and <code>X-Powered-By</code> headers; custom error pages that reveal nothing</td></tr>
             <tr><td><strong>Denial of Service</strong></td><td>Volumetric attack, slowloris, large payloads</td><td>WAF rate limiting, DDoS scrubbing (Shield Advanced), payload size caps, connection limits</td></tr>
-            <tr><td><strong>Elevation of Privilege</strong></td><td>SSRF through the web server reaching internal metadata</td><td>Enforce IMDSv2; block 169.254.169.254 at the security group; no server-side URL fetching without strict allowlisting</td></tr>
+            <tr><td><strong>Elevation of Privilege</strong></td><td>SSRF through the web server reaching internal metadata</td><td>Enforce IMDSv2 on all EC2 instances (defense-in-depth, not a full SSRF fix); URL allowlisting, redirect validation, and blocking outbound access to private/link-local destinations</td></tr>
           </tbody>
         </table>
         </div>
@@ -465,12 +465,12 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
         <p><strong>What stops this at each phase:</strong></p>
         <ul>
           <li>Tier 1: Attack surface monitoring that would have found the forgotten endpoint</li>
-          <li>Tier 2: IMDSv2 enforcement (PUT request required before GET — SSRF can't do the PUT)</li>
+          <li>Tier 2: IMDSv2 enforcement — reduces but does not eliminate the risk (see note below)</li>
           <li>Tier 3: IAM role scoped to only the permissions the application actually needs</li>
         </ul>
 
         <div class="callout callout-info" style="margin:18px 0;padding:14px 18px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:6px;font-size:0.92em;color:var(--text-muted);">
-        <strong>Note:</strong> IMDSv2 materially reduces the exploitability of SSRF-based metadata credential theft by requiring a session token obtained through a PUT request, but it should be treated as defense-in-depth rather than a universal SSRF mitigation.
+        <strong>Note:</strong> Enforce IMDSv2 on all EC2 instances. IMDSv2 significantly reduces the risk of SSRF-based metadata credential theft by requiring a session token before metadata access. However, it is defense-in-depth and does not replace proper SSRF protections such as URL allowlisting, redirect validation, and restricting access to private and link-local destinations.
         </div>
 
         <h3>Detection Signals to Watch</h3>
