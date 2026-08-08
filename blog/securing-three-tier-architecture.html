@@ -244,7 +244,7 @@
         <table>
           <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
           <tbody>
-            <tr><td><strong>Spoofing</strong></td><td>JWT forgery, session token theft, credential stuffing</td><td>Short-lived JWTs with RS256; HttpOnly + Secure + SameSite=Strict cookies; JTI revocation list</td></tr>
+            <tr><td><strong>Spoofing</strong></td><td>JWT forgery, session token theft, credential stuffing</td><td>Short-lived JWTs, signed with an algorithm matched to your trust boundary (RS256/ES256 across services, HS256 only within a tightly controlled boundary); HttpOnly + Secure + SameSite=Strict cookies; JTI revocation list</td></tr>
             <tr><td><strong>Tampering</strong></td><td>SQL injection, mass assignment, business logic manipulation</td><td>Parameterised queries everywhere; DTO allowlists; atomic DB operations for financial state</td></tr>
             <tr><td><strong>Repudiation</strong></td><td>"I never made that transaction"</td><td>Structured audit log capturing who, what, when, from where, with what auth token</td></tr>
             <tr><td><strong>Information Disclosure</strong></td><td>Verbose error messages leaking table names, stack traces</td><td>Production error handler returns opaque IDs; detailed errors only to log infrastructure</td></tr>
@@ -331,7 +331,16 @@ Outbound:
         <h3>Authentication and Session Management</h3>
         <p>Your application servers are where authentication logic lives, and authentication is where most meaningful compromises begin. A few hard rules:</p>
 
-        <p><strong>JWT, if you use it:</strong> RS256 (asymmetric), never HS256 for distributed systems. Hardcode the algorithm in your verification code — never read it from the token header, because that's how algorithm-confusion attacks work. Short expiry (15 minutes to 1 hour) with revocable refresh tokens. Implement a JTI (JWT ID) blocklist in Redis for immediate session invalidation on logout.</p>
+        <p><strong>JWT, if you use it:</strong> For distributed systems, asymmetric signing such as RS256 or ES256 is generally preferable because services can verify tokens without possessing the signing key. HS256 can be appropriate when the issuer and verifiers share a tightly controlled trust boundary. Whichever you choose:</p>
+        <ul>
+          <li>Reject <code>alg=none</code> outright — never accept an unsigned token.</li>
+          <li>Don't allow algorithm confusion: hardcode the expected algorithm in your verification code, never read it from the token header.</li>
+          <li>Validate the issuer (<code>iss</code>).</li>
+          <li>Validate the audience (<code>aud</code>).</li>
+          <li>Validate expiry (<code>exp</code>), with a short lifetime (15 minutes to 1 hour) and revocable refresh tokens.</li>
+          <li>Rotate signing keys on a schedule, and support key rollover (e.g. via a JWKS endpoint with multiple active keys) so rotation doesn't invalidate every in-flight token at once.</li>
+        </ul>
+        <p>Implement a JTI (JWT ID) blocklist in Redis for immediate session invalidation on logout.</p>
 
         <p><strong>Session cookies:</strong> HttpOnly, Secure, SameSite=Strict. The SameSite attribute alone eliminates the vast majority of CSRF risk without a separate token mechanism. Add a CSRF token for any form that changes state, as defense in depth.</p>
 
