@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Securing the Three-Tier Architecture: What Actually Matters · Yogendra Swaroop Srivastava</title>
-<meta name="description" content="From attack surface to audit trail — what actually matters, and what you can skip.">
+<meta name="description" content="CIA triad, STRIDE threat modeling, cost-aware logging, and hot-swap patching under a live attack — security for every layer of your three-tier architecture.">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="canonical" href="https://yogendra-swaroop.tech/blog/securing-three-tier-architecture.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Securing the Three-Tier Architecture: What Actually Matters">
-<meta property="og:description" content="From attack surface to audit trail — what actually matters, and what you can skip.">
+<meta property="og:description" content="CIA triad, STRIDE threat modeling, cost-aware logging, and hot-swap patching under a live attack — security for every layer of your three-tier architecture.">
 <meta property="og:image" content="/assets/img/three-tier-thumb.svg">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
@@ -67,7 +67,7 @@
 
         <!-- Architecture diagram -->
         <div style="margin:28px 0; overflow-x:auto;">
-          <svg viewBox="0 0 760 700" style="width:100%; min-width:560px; height:auto; font-family:var(--font-mono);" role="img" aria-label="Three-tier architecture diagram: Internet, Presentation Tier (WAF/CDN, ALB, Web Server) in a public subnet, Application Tier (App Servers) in a private subnet, and Data Tier (Primary DB, Read Replica, Backup) in an isolated subnet.">
+          <svg viewBox="0 0 760 700" style="width:100%; min-width:560px; height:auto; font-family:var(--font-mono);" role="img" aria-label="Three-tier architecture diagram: Internet, Edge &amp; Web Tier (WAF/CDN, ALB, Web Server) in a public subnet, Application Tier (App Servers) in a private subnet, and Data Tier (Primary DB, Read Replica, Backup) in an isolated subnet.">
             <defs>
               <polygon id="arrowhead-shape" points="0,0 10,5 0,10" />
             </defs>
@@ -351,7 +351,7 @@ cursor.execute("SELECT * FROM orders WHERE user_id = %s", (user_id,))</code></pr
         <h2>Tier 3: Securing the Data Layer</h2>
 
         <h3>Network Isolation First</h3>
-        <p>Your database should be completely invisible from the internet and from the presentation tier. The security group for the database accepts connections on the DB port from one source: the application tier security group. That's the entire rule set. There is no internet access, no NAT, no management ports open from anywhere other than a bastion or AWS Systems Manager Session Manager.</p>
+        <p>Your database should be completely invisible from the internet and from the edge &amp; web tier. The security group for the database accepts connections on the DB port from one source: the application tier security group. That's the entire rule set. There is no internet access, no NAT, no management ports open from anywhere other than a bastion or AWS Systems Manager Session Manager.</p>
 
         <h3>Encryption Everywhere</h3>
         <p><strong>At rest:</strong> Enable encryption on your RDS instances (AES-256, KMS-managed keys). This is a checkbox on creation — there's no reason not to. EBS volumes backing the instances are encrypted. Snapshots inherit the encryption of the source. Unencrypted snapshots that are accidentally made public are one of the most common data breach vectors in cloud environments.</p>
@@ -378,7 +378,7 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
         <h2>Logging Strategy: What to Enable, What to Skip</h2>
         <p>Logging everything is expensive and often counterproductive — the alerts you care about drown in noise. Logging nothing means you're flying blind during an incident. The right answer is tiered logging with cost controls.</p>
 
-        <h3>Tier 1 — Presentation</h3>
+        <h3>Tier 1 — Edge &amp; Web</h3>
         <p><strong>Enable (always):</strong></p>
         <ul>
           <li>ALB access logs → S3 (cost: low, $0.01 per GB stored). Every request, every response code, every backend target. This is your forensic baseline.</li>
