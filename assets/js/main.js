@@ -100,6 +100,29 @@
     });
   }
 
+  // Typing terminal ("cat about_me" animation on the About page)
+  var typingTerminal = document.querySelector(".typing-terminal");
+  if (typingTerminal) {
+    var cmdEl = typingTerminal.querySelector(".typed-cmd");
+    var caretEl = typingTerminal.querySelector(".typing-caret");
+    var outputEl = typingTerminal.querySelector(".typing-output");
+    var command = "cat about_me";
+    var i = 0;
+    var typeChar = function () {
+      if (i <= command.length) {
+        cmdEl.textContent = command.slice(0, i);
+        i++;
+        setTimeout(typeChar, 80);
+      } else {
+        setTimeout(function () {
+          caretEl.classList.add("done");
+          if (outputEl) outputEl.classList.add("show");
+        }, 250);
+      }
+    };
+    setTimeout(typeChar, 500);
+  }
+
   // Newsletter form (static — no backend yet)
   var ctaForm = document.querySelector(".cta-form");
   if (ctaForm) {

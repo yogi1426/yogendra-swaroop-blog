@@ -196,6 +196,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 .caret { display: inline-block; width: 7px; height: 15px; background: var(--accent); vertical-align: middle; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
+.typing-terminal .typed-cmd { color: var(--text); }
+.typing-terminal .typing-caret { color: var(--accent); animation: blink 1s steps(1) infinite; font-size: .8em; }
+.typing-terminal .typing-caret.done { display: none; }
+.typing-terminal .typing-output { opacity: 0; transform: translateY(4px); transition: opacity .5s ease, transform .5s ease; }
+.typing-terminal .typing-output.show { opacity: 1; transform: translateY(0); }
+
 /* ---------- Sections ---------- */
 .section { padding: 90px 0; }
 .section-tight { padding: 60px 0; }
@@ -404,6 +410,15 @@ ul { margin: 0; padding: 0; list-style: none; }
 .post-content pre code { background: none; color: var(--code-text); padding: 0; }
 .copy-btn { position: absolute; top: 12px; right: 12px; font-family: var(--font-mono); font-size: .72rem; background: var(--bg-1); color: var(--text-muted); border: 1px solid var(--border); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
 .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+.post-content .table-wrap { overflow-x: auto; margin: 26px 0; border: 1px solid var(--border); border-radius: var(--radius); }
+.post-content table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .93rem; }
+.post-content th, .post-content td { padding: 12px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-soft); border-right: 1px solid var(--border-soft); }
+.post-content th:last-child, .post-content td:last-child { border-right: none; }
+.post-content tr:last-child td { border-bottom: none; }
+.post-content thead th { background: var(--bg-1); color: var(--text); font-weight: 700; font-family: var(--font-mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; }
+.post-content tbody tr:nth-child(even) { background: var(--bg-1); }
+.post-content tbody td:first-child { font-weight: 600; white-space: nowrap; }
 
 .post-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding-top: 26px; margin-top: 46px; border-top: 1px solid var(--border-soft); }
 .post-tags { display: flex; flex-wrap: wrap; gap: 8px; }
