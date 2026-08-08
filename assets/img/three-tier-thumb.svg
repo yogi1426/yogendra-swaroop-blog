@@ -28,7 +28,7 @@
 
   <!-- three stacked tiers -->
   <rect x="150" y="70" width="300" height="46" rx="8" fill="#0f151d" stroke="#2ee6a6" stroke-width="2"/>
-  <text x="300" y="98" text-anchor="middle" font-family="ui-monospace, monospace" font-size="14" fill="#e7edf3" font-weight="700">PRESENTATION</text>
+  <text x="300" y="98" text-anchor="middle" font-family="ui-monospace, monospace" font-size="14" fill="#e7edf3" font-weight="700">EDGE &amp; WEB</text>
 
   <line x1="300" y1="116" x2="300" y2="140" stroke="#2ee6a6" stroke-width="2"/>
 

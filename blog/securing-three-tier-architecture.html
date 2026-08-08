@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Securing the Three-Tier Architecture: What Actually Matters · Yogendra Swaroop Srivastava</title>
-<meta name="description" content="From attack surface to audit trail — what actually matters, and what you can skip.">
+<meta name="description" content="CIA triad, STRIDE threat modeling, cost-aware logging, and hot-swap patching under a live attack — security for every layer of your three-tier architecture.">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="canonical" href="https://yogendra-swaroop.tech/blog/securing-three-tier-architecture.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Securing the Three-Tier Architecture: What Actually Matters">
-<meta property="og:description" content="From attack surface to audit trail — what actually matters, and what you can skip.">
+<meta property="og:description" content="CIA triad, STRIDE threat modeling, cost-aware logging, and hot-swap patching under a live attack — security for every layer of your three-tier architecture.">
 <meta property="og:image" content="/assets/img/three-tier-thumb.svg">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
@@ -16,6 +16,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H37ZPM51C3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H37ZPM51C3');
+</script>
 </head>
 <body>
 <div class="bg-fx"></div>
@@ -67,7 +74,7 @@
 
         <!-- Architecture diagram -->
         <div style="margin:28px 0; overflow-x:auto;">
-          <svg viewBox="0 0 760 700" style="width:100%; min-width:560px; height:auto; font-family:var(--font-mono);" role="img" aria-label="Three-tier architecture diagram: Internet, Presentation Tier (WAF/CDN, ALB, Web Server) in a public subnet, Application Tier (App Servers) in a private subnet, and Data Tier (Primary DB, Read Replica, Backup) in an isolated subnet.">
+          <svg viewBox="0 0 760 700" style="width:100%; min-width:560px; height:auto; font-family:var(--font-mono);" role="img" aria-label="Three-tier architecture diagram: Internet, Edge &amp; Web Tier (WAF/CDN, ALB, Web Server) in a public subnet, Application Tier (App Servers) in a private subnet, and Data Tier (Primary DB, Read Replica, Backup) in an isolated subnet.">
             <defs>
               <polygon id="arrowhead-shape" points="0,0 10,5 0,10" />
             </defs>
@@ -83,8 +90,8 @@
 
             <!-- Tier 1 container -->
             <rect x="20" y="80" width="720" height="172" rx="14" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
-            <text x="380" y="104" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">PRESENTATION TIER (DMZ)</text>
-            <text x="380" y="121" text-anchor="middle" font-size="10.5" fill="var(--text-dim)">PUBLIC SUBNET — internet-facing, hardened, minimal exposure</text>
+            <text x="380" y="104" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">EDGE &amp; WEB TIER</text>
+            <text x="380" y="121" text-anchor="middle" font-size="10.5" fill="var(--text-dim)">PUBLIC SUBNET — TLS termination, static assets, reverse proxy</text>
 
             <rect x="45" y="138" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
             <text x="140" y="170" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">WAF / CDN</text>
@@ -161,7 +168,7 @@
 
         <div class="skills-grid reveal" style="margin-bottom:10px;">
           <div class="skill-card">
-            <h4>Tier 1 — Presentation</h4>
+            <h4>Tier 1 — Edge &amp; Web</h4>
             <div class="skill-tags">
               <span class="skill-tag">WAF</span>
               <span class="skill-tag">DDoS protection</span>
@@ -197,12 +204,16 @@
           </div>
         </div>
 
+        <div class="callout callout-info" style="margin:18px 0;padding:14px 18px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:6px;font-size:0.92em;color:var(--text-muted);">
+        <strong>A note on terminology:</strong> This guide uses the infrastructure topology definition of three tiers — Edge/Web, Application, and Data — rather than the software architecture definition where "presentation" refers to the client-side UI running in the browser.
+        </div>
+
         <p>Three rules before we start: every tier only talks to the tier directly adjacent to it, no tier gets more permissions than it needs for its specific job, and everything is logged — but not everything needs to be logged at the same cost.</p>
 
         <h2>Why CIA Triad Maps Cleanly to Three Tiers</h2>
         <p>The three-tier architecture isn't just a performance decision. It's a security architecture, whether you designed it that way or not. Each tier has a different relationship with the CIA triad — and understanding that relationship is what separates a secure deployment from a compliant-on-paper one.</p>
 
-        <p><strong>Tier 1 (Presentation):</strong> Availability is your primary concern. This is what users hit. DDoS protection, rate limiting, and redundancy live here. If this tier goes down, the business feels it immediately.</p>
+        <p><strong>Tier 1 (Edge &amp; Web):</strong> Availability is your primary concern. This is what users hit. DDoS protection, rate limiting, and redundancy live here. If this tier goes down, the business feels it immediately.</p>
 
         <p><strong>Tier 2 (Application):</strong> Integrity is your primary concern. Business logic lives here, and business logic is where manipulation attacks happen. Price tampering, workflow bypass, race conditions, injection attacks — all exploited at this layer.</p>
 
@@ -213,7 +224,7 @@
         <h2>STRIDE at Each Layer</h2>
         <p>STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) is a threat modeling framework, not a checklist. Running it against a three-tier architecture gives you a structured way to think about what can go wrong at each boundary rather than guessing.</p>
 
-        <h3>Tier 1 — Presentation Layer</h3>
+        <h3>Tier 1 — Edge &amp; Web Layer</h3>
         <div class="table-wrap">
         <table>
           <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
@@ -258,7 +269,7 @@
         </table>
         </div>
 
-        <h2>Tier 1: Securing the Presentation Layer</h2>
+        <h2>Tier 1: Securing the Edge &amp; Web Layer</h2>
 
         <h3>TLS — Get This Completely Right</h3>
         <p>TLS is table stakes, but table stakes that people still misconfigure. Terminate TLS at the ALB with a certificate from ACM (automatic renewal, no manual certificate management). Between the ALB and your web servers, you have a choice: plain HTTP on an internal private network, or TLS again. The answer depends on your threat model. If you're handling regulated data or have compliance requirements (PCI-DSS, HIPAA), terminate TLS at every hop. If you're on a well-segmented VPC with no lateral movement risk, HTTP internally is often an acceptable trade-off that reduces operational complexity.</p>
@@ -298,8 +309,11 @@ Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre>
           <li>Per IP for auth endpoints: 20 requests per 5 minutes, no exceptions</li>
         </ul>
 
+        <h3>Web Server Role: Proxy, Not Logic</h3>
+        <p>The web server in this tier (Nginx, Apache, Caddy) has one job: handle TLS termination, serve static assets, and proxy requests upstream to the application tier. No business logic runs here. Authentication, authorisation, database calls, and anything that touches your data — that all lives in Tier 2. Keeping the web server dumb is intentional. A compromised web server should be a dead end, not a foothold into your application.</p>
+
         <h3>Network Segmentation</h3>
-        <p>Your presentation tier lives in a public subnet with an internet gateway. Your application tier does not. These two sentences describe the entire network security model for this tier. Any web server that needs to make an outbound internet request (to call a third-party API, for example) does it through a NAT Gateway in the public subnet, never through a direct internet route.</p>
+        <p>Your edge &amp; web tier lives in a public subnet with an internet gateway. Your application tier does not. These two sentences describe the entire network security model for this tier. Any web server that needs to make an outbound internet request (to call a third-party API, for example) does it through a NAT Gateway in the public subnet, never through a direct internet route.</p>
 
         <p>Security group rules for the web server:</p>
         <pre><code>Inbound:
@@ -344,7 +358,7 @@ cursor.execute("SELECT * FROM orders WHERE user_id = %s", (user_id,))</code></pr
         <h2>Tier 3: Securing the Data Layer</h2>
 
         <h3>Network Isolation First</h3>
-        <p>Your database should be completely invisible from the internet and from the presentation tier. The security group for the database accepts connections on the DB port from one source: the application tier security group. That's the entire rule set. There is no internet access, no NAT, no management ports open from anywhere other than a bastion or AWS Systems Manager Session Manager.</p>
+        <p>Your database should be completely invisible from the internet and from the edge &amp; web tier. The security group for the database accepts connections on the DB port from one source: the application tier security group. That's the entire rule set. There is no internet access, no NAT, no management ports open from anywhere other than a bastion or AWS Systems Manager Session Manager.</p>
 
         <h3>Encryption Everywhere</h3>
         <p><strong>At rest:</strong> Enable encryption on your RDS instances (AES-256, KMS-managed keys). This is a checkbox on creation — there's no reason not to. EBS volumes backing the instances are encrypted. Snapshots inherit the encryption of the source. Unencrypted snapshots that are accidentally made public are one of the most common data breach vectors in cloud environments.</p>
@@ -371,7 +385,7 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
         <h2>Logging Strategy: What to Enable, What to Skip</h2>
         <p>Logging everything is expensive and often counterproductive — the alerts you care about drown in noise. Logging nothing means you're flying blind during an incident. The right answer is tiered logging with cost controls.</p>
 
-        <h3>Tier 1 — Presentation</h3>
+        <h3>Tier 1 — Edge &amp; Web</h3>
         <p><strong>Enable (always):</strong></p>
         <ul>
           <li>ALB access logs → S3 (cost: low, $0.01 per GB stored). Every request, every response code, every backend target. This is your forensic baseline.</li>
@@ -408,7 +422,7 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
         <ul>
           <li>RDS Enhanced Monitoring (1-second granularity — costs about $14/month per instance, worth it).</li>
           <li>RDS audit log (pgaudit for PostgreSQL): log all DDL statements and authentication events always. Log DML (SELECT, INSERT, UPDATE, DELETE) on tables containing PII or financial data, not on all tables.</li>
-          <li>CloudTrail data events for S3 buckets containing sensitive data (RDS snapshots, backups).</li>
+          <li>CloudTrail <strong>management events</strong> (API calls, console logins, IAM changes) — <strong>free for the first copy per region</strong>. Always on, no exceptions. This is your forensic backbone and costs nothing.<br>CloudTrail <strong>data events</strong> (object-level S3 operations, Lambda invocations) — <strong>$0.10 per 100,000 events</strong>. Enable selectively: only on S3 buckets containing sensitive data (RDS snapshots, backups, PII exports) and Lambda functions handling auth or payments. Not on every bucket and function — the cost compounds fast at scale.</li>
         </ul>
         <p><strong>Skip unless required:</strong></p>
         <ul>
@@ -431,13 +445,15 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
         <h3>A Realistic Attack Scenario</h3>
         <p>An attacker identifies your application through subdomain enumeration. They find an endpoint that was deployed for a one-time integration and never decommissioned — a forgotten webhook receiver running on the application tier without authentication. Through this endpoint they can make the application server make outbound HTTP requests (SSRF).</p>
 
-        <p><strong>Step 1 — Reconnaissance:</strong> The first requests come from a residential proxy network, rotating IPs, with realistic user agents. Your WAF rate limiting doesn't trigger because each IP only makes a handful of requests. What triggers instead: a spike in 404 responses to paths that don't exist in your application. This should be a monitored metric.</p>
+        <p><strong>Phase 1 — Scanning (what generates the 404 spike):</strong> The first requests come from a residential proxy network, rotating IPs, with realistic user agents. Your WAF rate limiting doesn't trigger because each IP only makes a handful of requests. The attacker is enumerating paths — probing for endpoints that might exist. This phase produces your first detectable signal: a spike in 404 responses to paths that don't exist in your application. Monitor this. A single IP hitting 50+ non-existent paths in a short window is a scanner, not a user.</p>
 
-        <p><strong>Step 2 — SSRF to metadata:</strong> Through the SSRF endpoint, the attacker hits <code>http://169.254.169.254/latest/meta-data/iam/security-credentials/</code>. If IMDSv2 is not enforced, they get the application server's IAM role credentials. This is the pivot point — everything changes here.</p>
+        <p><strong>Phase 2 — Exploitation (the forgotten endpoint is found):</strong> Eventually the scanner finds the forgotten webhook receiver. Unlike the paths that returned 404, this one returns 200 or 403 — it exists. That's a different signal entirely, and one most teams miss because they're only watching for 404 spikes. The attacker now has a live, unauthenticated endpoint they can interact with.</p>
 
-        <p><strong>Step 3 — Lateral movement via IAM:</strong> With the instance role credentials, they call AWS APIs from their own machine. Depending on what the role can do, this is either a dead end (if the role is least-privilege) or a path to the rest of your infrastructure.</p>
+        <p><strong>Phase 3 — SSRF to metadata:</strong> Through the SSRF endpoint, the attacker hits <code>http://169.254.169.254/latest/meta-data/iam/security-credentials/</code>. If IMDSv2 is not enforced, they get the application server's IAM role credentials. This is the pivot point — everything changes here.</p>
 
-        <p><strong>What stops this at each tier:</strong></p>
+        <p><strong>Phase 4 — Lateral movement via IAM:</strong> With the instance role credentials, they call AWS APIs from their own machine. Depending on what the role can do, this is either a dead end (if the role is least-privilege) or a path to the rest of your infrastructure.</p>
+
+        <p><strong>What stops this at each phase:</strong></p>
         <ul>
           <li>Tier 1: Attack surface monitoring that would have found the forgotten endpoint</li>
           <li>Tier 2: IMDSv2 enforcement (PUT request required before GET — SSRF can't do the PUT)</li>
@@ -583,7 +599,7 @@ Current state at no point during this process:
         <h2>Final Thought</h2>
         <p>The three-tier architecture has been the dominant pattern in web application infrastructure for twenty years for good reason: it creates natural security boundaries that are hard to mess up accidentally once you've made the right initial decisions. The subnet isolation, the security group rules, the IAM boundaries — these are controls that protect you even when the application code has a bug, because the architecture limits what that bug can be used to reach.</p>
 
-        <p>Security doesn't come from the architecture diagram. It comes from the discipline of enforcing the boundaries the diagram describes. The presentation tier talks to the application tier, the application tier talks to the database tier, and nothing else is normal — which means anything else is a signal worth investigating.</p>
+        <p>Security doesn't come from the architecture diagram. It comes from the discipline of enforcing the boundaries the diagram describes. The edge &amp; web tier talks to the application tier, the application tier talks to the database tier, and nothing else is normal — which means anything else is a signal worth investigating.</p>
 
         <p>That's the actual security posture. Not a list of tools. Enforced boundaries, logged violations, practiced responses.</p>
 
