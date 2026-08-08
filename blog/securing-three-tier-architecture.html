@@ -460,6 +460,10 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
           <li>Tier 3: IAM role scoped to only the permissions the application actually needs</li>
         </ul>
 
+        <div class="callout callout-info" style="margin:18px 0;padding:14px 18px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:6px;font-size:0.92em;color:var(--text-muted);">
+        <strong>Note:</strong> IMDSv2 materially reduces the exploitability of SSRF-based metadata credential theft by requiring a session token obtained through a PUT request, but it should be treated as defense-in-depth rather than a universal SSRF mitigation.
+        </div>
+
         <h3>Detection Signals to Watch</h3>
         <p>The signals you should have alerts on that would catch this pattern:</p>
         <pre><code>1. First-seen source IP accessing sensitive endpoints
