@@ -196,6 +196,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 .caret { display: inline-block; width: 7px; height: 15px; background: var(--accent); vertical-align: middle; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
+.typing-terminal .typed-cmd { color: var(--text); }
+.typing-terminal .typing-caret { color: var(--accent); animation: blink 1s steps(1) infinite; font-size: .8em; }
+.typing-terminal .typing-caret.done { display: none; }
+.typing-terminal .typing-output { opacity: 0; transform: translateY(4px); transition: opacity .5s ease, transform .5s ease; }
+.typing-terminal .typing-output.show { opacity: 1; transform: translateY(0); }
+
 /* ---------- Sections ---------- */
 .section { padding: 90px 0; }
 .section-tight { padding: 60px 0; }
