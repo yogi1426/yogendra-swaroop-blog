@@ -403,7 +403,7 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
         </ul>
         <p><strong>Enable selectively:</strong></p>
         <ul>
-          <li>VPC Flow Logs at the REJECT level by default (accepted traffic is noise at scale). Set a 7-day retention in CloudWatch Logs before archiving to S3. REJECT-only Flow Logs can be a cost-conscious baseline, but security-sensitive workloads may require ACCEPT traffic visibility as well, particularly for detecting unexpected east-west or egress connections — such as an app server reaching <code>169.254.169.254</code>, which succeeds (ACCEPT) rather than getting blocked.</li>
+          <li>VPC Flow Logs at the REJECT level by default (accepted traffic is noise at scale). Set a 7-day retention in CloudWatch Logs before archiving to S3. REJECT-only Flow Logs can be a cost-conscious baseline, but security-sensitive workloads may require ACCEPT traffic visibility as well, particularly for detecting unexpected east-west or egress connections. One caveat: this doesn't cover instance metadata access — AWS excludes traffic to <code>169.254.169.254</code> from Flow Logs entirely, at any level, because IMDS is served locally by the hypervisor and never traverses the ENI the way Flow Logs capture. For that specific signal you need GuardDuty (<code>UnauthorizedAccess:EC2/MetadataDNSRebind</code>, <code>InstanceCredentialExfiltration</code>), CloudTrail anomaly detection on unexpected API calls from the instance role, or host-level monitoring — not Flow Logs.</li>
         </ul>
         <p><strong>Skip unless regulated:</strong></p>
         <ul>
@@ -479,10 +479,17 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
    Signal: any auth/API endpoint accessed from an IP not seen in the prior 7 days
    Alert: Medium (batch hourly, not real-time)
 
-2. Application making outbound HTTP requests to RFC-1918 or
-   metadata IPs
-   Signal: VPC Flow Logs (ACCEPT records — this traffic succeeds, it
-   isn't rejected) showing app server connecting to 169.254.x.x
+2. Application making outbound HTTP requests to internal
+   (RFC-1918) IPs it shouldn't be reaching
+   Signal: VPC Flow Logs ACCEPT records showing app server
+   connecting to an internal IP outside its normal dependency list
+   Alert: Critical (real-time)
+
+3. Application making outbound requests to the metadata endpoint
+   Signal: NOT VPC Flow Logs — AWS excludes 169.254.169.254 traffic
+   from Flow Logs entirely. Use GuardDuty
+   (InstanceCredentialExfiltration, MetadataDNSRebind) or
+   CloudTrail anomaly detection on the instance role's API calls
    Alert: Critical (real-time)
 
 3. IAM credentials used from a non-EC2 IP
@@ -578,7 +585,8 @@ Current state at no point during this process:
           <li><input type="checkbox" disabled> Three subnets, three security groups, no cross-tier traffic except on the expected port and direction</li>
           <li><input type="checkbox" disabled> No direct internet access from application or database tier</li>
           <li><input type="checkbox" disabled> IMDSv2 enforced on all EC2 instances</li>
-          <li><input type="checkbox" disabled> VPC Flow Logs enabled at REJECT level by default, with ALL-traffic logging carved out for any ENI/subnet that can reach the metadata endpoint</li>
+          <li><input type="checkbox" disabled> VPC Flow Logs enabled at REJECT level by default, ACCEPT logging added for security-sensitive subnets watching for unexpected east-west/egress connections</li>
+          <li><input type="checkbox" disabled> GuardDuty enabled for metadata-credential-theft detection (Flow Logs do not capture traffic to the instance metadata endpoint)</li>
         </ul>
 
         <p><strong>Identity and Access:</strong></p>
