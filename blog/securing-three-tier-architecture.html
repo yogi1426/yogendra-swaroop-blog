@@ -394,7 +394,7 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
         </ul>
         <p><strong>Enable selectively:</strong></p>
         <ul>
-          <li>VPC Flow Logs at the REJECT level only (accepted traffic is noise at scale). Set a 7-day retention in CloudWatch Logs before archiving to S3.</li>
+          <li>VPC Flow Logs at the REJECT level by default (accepted traffic is noise at scale). Set a 7-day retention in CloudWatch Logs before archiving to S3. Exception: log ALL traffic (not just REJECT) for any ENI or subnet that can reach <code>169.254.169.254</code> — a successful SSRF-to-metadata request is an ACCEPT, not a REJECT, so REJECT-only logging would miss the exact signal you're trying to catch.</li>
         </ul>
         <p><strong>Skip unless regulated:</strong></p>
         <ul>
@@ -472,7 +472,8 @@ SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
 
 2. Application making outbound HTTP requests to RFC-1918 or
    metadata IPs
-   Signal: VPC Flow Logs showing app server connecting to 169.254.x.x
+   Signal: VPC Flow Logs (ACCEPT records — this traffic succeeds, it
+   isn't rejected) showing app server connecting to 169.254.x.x
    Alert: Critical (real-time)
 
 3. IAM credentials used from a non-EC2 IP
@@ -568,7 +569,7 @@ Current state at no point during this process:
           <li><input type="checkbox" disabled> Three subnets, three security groups, no cross-tier traffic except on the expected port and direction</li>
           <li><input type="checkbox" disabled> No direct internet access from application or database tier</li>
           <li><input type="checkbox" disabled> IMDSv2 enforced on all EC2 instances</li>
-          <li><input type="checkbox" disabled> VPC Flow Logs enabled at REJECT level</li>
+          <li><input type="checkbox" disabled> VPC Flow Logs enabled at REJECT level by default, with ALL-traffic logging carved out for any ENI/subnet that can reach the metadata endpoint</li>
         </ul>
 
         <p><strong>Identity and Access:</strong></p>
