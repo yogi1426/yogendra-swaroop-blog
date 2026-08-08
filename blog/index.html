@@ -45,7 +45,7 @@
 <main id="main">
   <div class="page-hero">
     <div class="wrap">
-      <span class="pill"><span class="dot"></span> 4 posts</span>
+      <span class="pill"><span class="dot"></span> 5 posts</span>
       <h1>The Blog</h1>
       <p>Deep-dives and field notes on application security, offensive security and detection engineering.</p>
     </div>
@@ -56,7 +56,7 @@
       <div class="filter-bar">
         <button class="filter-chip active" data-filter="all">All</button>
         <button class="filter-chip" data-filter="cloud-security">Cloud Security</button>
-        <button class="filter-chip" data-filter="aws-security">AWS Security</button>
+        <button class="filter-chip" data-filter="security-engineering">Security Engineering</button>
         <button class="filter-chip" data-filter="web-application-security">Web Application Security</button>
         <button class="filter-chip" data-filter="oscp">OSCP</button>
         <button class="filter-chip" data-filter="pentesting">Pentesting</button>
@@ -66,7 +66,15 @@
       </div>
 
       <div style="display:flex; flex-direction:column; gap:0;">
-        <a class="post-list-row reveal" data-tags="cloud-security,security,aws-security" href="/blog/aws-mfa.html">
+        <a class="post-list-row reveal" data-tags="cloud-security,security-engineering" href="/blog/securing-three-tier-architecture.html">
+          <span class="plr-date mono">Aug 6, 2026</span>
+          <div class="plr-body">
+            <h3>Securing the Three-Tier Architecture: A Practitioner's Guide</h3>
+            <p>From attack surface to audit trail — what actually matters, and what you can skip.</p>
+          </div>
+          <svg class="icon plr-arrow" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a class="post-list-row reveal" data-tags="cloud-security" href="/blog/aws-mfa.html">
           <span class="plr-date mono">Apr 16, 2022</span>
           <div class="plr-body">
             <h3>Enforcing MFA Policy on the IAM Users in an AWS Account</h3>

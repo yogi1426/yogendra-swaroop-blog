@@ -22,9 +22,9 @@ teaming, penetration testing, and training people to break things properly.
 
 ## Currently
 
-Sharing what I've learned through structured, multi-part series rather than one-off posts — offensive
-security fundamentals, cloud security, Kubernetes security, and security engineering as a craft — on
-[**yogendra-swaroop.tech**](https://yogendra-swaroop.tech).
+Sharing what I've learned, grouped by topic rather than dumped as one-off posts — offensive security
+fundamentals, cloud security, Kubernetes security, and security engineering as a craft — on
+[**blog.yogendra-swaroop.tech**](https://blog.yogendra-swaroop.tech).
 
 ## Outside of work
 
@@ -33,7 +33,7 @@ null and BSides — mostly because I like meeting people and learning from them.
 
 ## Elsewhere
 
-- 🌐 [yogendra-swaroop.tech](https://yogendra-swaroop.tech) — my writing
+- 🌐 [blog.yogendra-swaroop.tech](https://blog.yogendra-swaroop.tech) — my writing
 - 💼 [LinkedIn](https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/)
 - 🐙 [GitHub](https://github.com/yogi1426)
 - ✉️ [yogendra.swaroop.srivastava@gmail.com](mailto:yogendra.swaroop.srivastava@gmail.com)
