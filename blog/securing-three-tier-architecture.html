@@ -313,16 +313,16 @@ Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre>
         <p>The web server in this tier (Nginx, Apache, Caddy) has one job: handle TLS termination, serve static assets, and proxy requests upstream to the application tier. No business logic runs here. Authentication, authorisation, database calls, and anything that touches your data — that all lives in Tier 2. Keeping the web server dumb is intentional. A compromised web server should be a dead end, not a foothold into your application.</p>
 
         <h3>Network Segmentation</h3>
-        <p>Your edge &amp; web tier lives in a public subnet with an internet gateway. Your application tier does not. These two sentences describe the entire network security model for this tier. Any web server that needs to make an outbound internet request (to call a third-party API, for example) does it through a NAT Gateway in the public subnet, never through a direct internet route.</p>
+        <p>Your edge &amp; web tier lives in a public subnet with an internet gateway. Your application tier does not. These two sentences describe the entire network security model for this tier. The web server's outbound internet traffic goes straight out the IGW; it's the application tier that has no direct route and must go through a NAT Gateway for any outbound request (to call a third-party API, for example).</p>
 
         <p>Security group rules for the web server:</p>
         <pre><code>Inbound:
-  Port 443 from 0.0.0.0/0 (internet HTTPS — via ALB SG, not directly)
-  Port 80 from 0.0.0.0/0 (redirect to 443 only)
+  Port 443 from ALB SG only (internet HTTPS reaches the ALB, not the web server directly)
+  Port 80 from ALB SG only (redirect to 443 only)
 
 Outbound:
   Port 8080 to Application Tier SG (app traffic only)
-  Port 443 to 0.0.0.0/0 (HTTPS outbound for third-party calls, via NAT)</code></pre>
+  Port 443 to 0.0.0.0/0 (HTTPS outbound for third-party calls, direct via IGW)</code></pre>
 
         <p>The ALB security group should be the only thing that can reach port 443 on your web servers — not any IP, not any other SG, the specific ALB SG. Reference security groups, not IP ranges.</p>
 
