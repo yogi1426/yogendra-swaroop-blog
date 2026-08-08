@@ -16,6 +16,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
+<style>
+  .arch-diagram-mobile{display:none;}
+  @media (max-width:640px){
+    .arch-diagram-desktop{display:none;}
+    .arch-diagram-mobile{display:block;}
+  }
+</style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H37ZPM51C3"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -73,7 +80,7 @@
         <p>Before we talk about securing anything, let's agree on what we're securing. A three-tier architecture separates your application into three distinct layers, each with a job and a blast radius.</p>
 
         <!-- Architecture diagram -->
-        <div style="margin:28px 0; overflow-x:auto;">
+        <div class="arch-diagram-desktop" style="margin:28px 0; overflow-x:auto;">
           <svg viewBox="0 0 760 700" style="width:100%; min-width:560px; height:auto; font-family:var(--font-mono);" role="img" aria-label="Three-tier architecture diagram: Internet, then an Edge &amp; Web Tier where WAF/CDN sits at the edge outside the VPC, the ALB sits in a public subnet, and the Web Server sits in a private subnet behind the ALB; then an Application Tier (App Servers) in a private subnet, and a Data Tier (Primary DB, Read Replica, Backup) in an isolated subnet.">
             <defs>
               <polygon id="arrowhead-shape" points="0,0 10,5 0,10" />
@@ -166,6 +173,92 @@
 
             <line x1="235" y1="597" x2="283" y2="597" stroke="var(--accent-2)" stroke-width="2"/>
             <polygon points="277,592 289,597 277,602" fill="var(--accent-2)"/>
+          </svg>
+        </div>
+
+        <!-- Architecture diagram (mobile, stacked) -->
+        <div class="arch-diagram-mobile" style="margin:28px 0;">
+          <svg viewBox="0 0 320 878" style="width:100%; height:auto; font-family:var(--font-mono);" role="img" aria-label="Three-tier architecture diagram (stacked for mobile): Internet, then an Edge &amp; Web Tier where WAF/CDN sits at the edge outside the VPC, the ALB sits in a public subnet, and the Web Server sits in a private subnet behind the ALB; then an Application Tier of autoscaled App Servers in a private subnet, and a Data Tier (Primary DB, Read Replica, Backup) in an isolated subnet.">
+            <defs>
+              <polygon id="arrowhead-shape-m" points="0,0 10,5 0,10" />
+            </defs>
+
+            <!-- Internet -->
+            <rect x="60" y="10" width="200" height="36" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="160" y="33" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">INTERNET / USERS</text>
+
+            <!-- Arrow A -->
+            <line x1="160" y1="46" x2="160" y2="70" stroke="var(--accent)" stroke-width="2"/>
+            <polygon points="154,66 166,66 160,74" fill="var(--accent)"/>
+            <text x="160" y="88" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">HTTPS :443</text>
+
+            <!-- Tier 1 container -->
+            <rect x="10" y="96" width="300" height="270" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="120" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent)">EDGE &amp; WEB TIER</text>
+            <text x="160" y="136" text-anchor="middle" font-size="9.5" fill="var(--text-dim)">ALB is the only public-facing piece —</text>
+            <text x="160" y="148" text-anchor="middle" font-size="9.5" fill="var(--text-dim)">web server sits in a private subnet</text>
+
+            <rect x="25" y="160" width="270" height="54" rx="8" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="180" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">WAF / CDN</text>
+            <text x="160" y="195" text-anchor="middle" font-size="9" fill="var(--text-muted)">(Cloudflare / AWS WAF)</text>
+            <text x="160" y="207" text-anchor="middle" font-size="8.5" fill="var(--accent)">edge, outside VPC</text>
+
+            <line x1="160" y1="214" x2="160" y2="224" stroke="var(--accent-2)" stroke-width="2"/>
+            <polygon points="154,219 166,219 160,228" fill="var(--accent-2)"/>
+
+            <rect x="25" y="228" width="270" height="54" rx="8" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="248" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">ALB</text>
+            <text x="160" y="263" text-anchor="middle" font-size="9" fill="var(--text-muted)">(Load Balancer + TLS term)</text>
+            <text x="160" y="275" text-anchor="middle" font-size="8.5" fill="var(--accent)">public subnet</text>
+
+            <line x1="160" y1="282" x2="160" y2="292" stroke="var(--accent-2)" stroke-width="2"/>
+            <polygon points="154,287 166,287 160,296" fill="var(--accent-2)"/>
+
+            <rect x="25" y="296" width="270" height="54" rx="8" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="316" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">Web Server</text>
+            <text x="160" y="331" text-anchor="middle" font-size="9" fill="var(--text-muted)">(Nginx, Apache)</text>
+            <text x="160" y="343" text-anchor="middle" font-size="8.5" fill="var(--accent)">private subnet</text>
+
+            <!-- Arrow B -->
+            <line x1="160" y1="366" x2="160" y2="390" stroke="var(--accent)" stroke-width="2"/>
+            <polygon points="154,386 166,386 160,394" fill="var(--accent)"/>
+            <text x="160" y="408" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">HTTP :8080 (internal only)</text>
+
+            <!-- Tier 2 container -->
+            <rect x="10" y="414" width="300" height="138" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="438" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent-2)">APPLICATION TIER</text>
+            <text x="160" y="454" text-anchor="middle" font-size="9.5" fill="var(--text-dim)">PRIVATE SUBNET — no internet route,</text>
+            <text x="160" y="466" text-anchor="middle" font-size="9.5" fill="var(--text-dim)">outbound via NAT only</text>
+
+            <rect x="25" y="478" width="270" height="60" rx="8" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="500" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">App Servers (×3, autoscaled)</text>
+            <text x="160" y="516" text-anchor="middle" font-size="9" fill="var(--text-muted)">(Node / Django / Spring)</text>
+            <text x="160" y="530" text-anchor="middle" font-size="8.5" fill="var(--accent)">private subnet</text>
+
+            <!-- Arrow C -->
+            <line x1="160" y1="552" x2="160" y2="576" stroke="var(--accent)" stroke-width="2"/>
+            <polygon points="154,572 166,572 160,580" fill="var(--accent)"/>
+            <text x="160" y="594" text-anchor="middle" font-size="9.5" fill="var(--text-muted)">DB protocol :5432 / 3306 / 27017</text>
+
+            <!-- Tier 3 container -->
+            <rect x="10" y="602" width="300" height="268" rx="12" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="626" text-anchor="middle" font-size="13" font-weight="700" fill="var(--accent-3)">DATA TIER</text>
+            <text x="160" y="642" text-anchor="middle" font-size="9.5" fill="var(--text-dim)">ISOLATED SUBNET — no internet, no NAT,</text>
+            <text x="160" y="654" text-anchor="middle" font-size="9.5" fill="var(--text-dim)">DB traffic only</text>
+
+            <rect x="25" y="666" width="270" height="54" rx="8" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="686" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">Primary DB</text>
+            <text x="160" y="701" text-anchor="middle" font-size="9" fill="var(--text-muted)">(RDS/Aurora Primary)</text>
+
+            <line x1="160" y1="720" x2="160" y2="730" stroke="var(--accent-2)" stroke-width="2"/>
+            <polygon points="154,725 166,725 160,734" fill="var(--accent-2)"/>
+
+            <rect x="25" y="734" width="270" height="54" rx="8" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="765" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">Read Replica</text>
+
+            <rect x="25" y="802" width="270" height="54" rx="8" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="160" y="822" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--text)">Backup / Snapshot</text>
+            <text x="160" y="837" text-anchor="middle" font-size="9" fill="var(--text-muted)">(Encrypted)</text>
           </svg>
         </div>
 
