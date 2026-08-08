@@ -193,7 +193,7 @@
               <span class="skill-tag">Least-privilege DB users</span>
             </div>
           </div>
-          <div class="skill-card">
+          <div class="skill-card" style="grid-column: 1 / -1;">
             <h4>Cross-cutting</h4>
             <div class="skill-tags">
               <span class="skill-tag">VPC with SG isolation between every tier</span>
@@ -221,6 +221,7 @@
         <p>STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) is a threat modeling framework, not a checklist. Running it against a three-tier architecture gives you a structured way to think about what can go wrong at each boundary rather than guessing.</p>
 
         <h3>Tier 1 — Presentation Layer</h3>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
           <tbody>
@@ -232,8 +233,10 @@
             <tr><td><strong>Elevation of Privilege</strong></td><td>SSRF through the web server reaching internal metadata</td><td>Enforce IMDSv2; block 169.254.169.254 at the security group; no server-side URL fetching without strict allowlisting</td></tr>
           </tbody>
         </table>
+        </div>
 
         <h3>Tier 2 — Application Layer</h3>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
           <tbody>
@@ -245,8 +248,10 @@
             <tr><td><strong>Elevation of Privilege</strong></td><td>IDOR — accessing another user's resources</td><td>Scope every DB query to the authenticated user; Row-Level Security as a second enforcement layer</td></tr>
           </tbody>
         </table>
+        </div>
 
         <h3>Tier 3 — Data Layer</h3>
+        <div class="table-wrap">
         <table>
           <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
           <tbody>
@@ -258,6 +263,7 @@
             <tr><td><strong>Elevation of Privilege</strong></td><td>App user running DDL or accessing schemas it shouldn't</td><td>Principle of least privilege: the application's DB user can only SELECT/INSERT/UPDATE on its own schema, nothing else</td></tr>
           </tbody>
         </table>
+        </div>
 
         <h2>Tier 1: Securing the Presentation Layer</h2>
 
