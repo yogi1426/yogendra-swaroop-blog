@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Securing the Three-Tier Architecture: A Practitioner's Guide · Yogendra Swaroop Srivastava</title>
+<meta name="description" content="From attack surface to audit trail — what actually matters, and what you can skip.">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="canonical" href="https://yogendra-swaroop.tech/blog/securing-three-tier-architecture.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Securing the Three-Tier Architecture: A Practitioner's Guide">
+<meta property="og:description" content="From attack surface to audit trail — what actually matters, and what you can skip.">
+<meta property="og:image" content="/assets/img/avatar.jpeg">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div class="bg-fx"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Y</span>
+      <span>Yogendra<span class="brand-dot">.</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/blog/" class="active">Blog</a>
+      <a href="/series/">Series</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-link" href="https://github.com/yogi1426" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+      <a class="btn btn-primary btn-sm" href="/about.html#contact">Get in touch</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="site-nav-mobile" id="site-nav-mobile">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/series/">Series</a>
+    <a href="/about.html">About</a>
+  </nav>
+</header>
+
+<main id="main">
+  <article>
+    <div class="post-wrap">
+      <header class="post-header">
+        <a class="post-series-badge" href="/series/security-engineering.html"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><rect x="2" y="17" width="6" height="4" rx="1"/><rect x="16" y="17" width="6" height="4" rx="1"/><path d="M12 6v5M12 11H5v6M12 11h7v6"/></svg> Security Engineering</a>
+        <h1 class="post-title">Securing the Three-Tier Architecture: A Practitioner's Guide</h1>
+        <p class="post-description">From attack surface to audit trail — what actually matters, and what you can skip.</p>
+        <div class="post-meta">
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Aug 6, 2026</span>
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> 18 min read</span>
+        </div>
+      </header>
+
+      <nav class="series-nav">
+        <div class="series-nav-title"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12M6 22h12M6 2c0 5 12 5 12 10s-12 5-12 10M18 2c0 5-12 5-12 10s12 5 12 10"/></svg> Security Engineering — 1 post published</div>
+        <ol>
+          <li class="current"><a href="/blog/securing-three-tier-architecture.html">Securing the Three-Tier Architecture: A Practitioner's Guide</a></li>
+        </ol>
+      </nav>
+
+      <div class="post-content">
+
+        <h2>The Architecture at a Glance</h2>
+        <p>Before we talk about securing anything, let's agree on what we're securing. A three-tier architecture separates your application into three distinct layers, each with a job and a blast radius.</p>
+
+        <!-- Architecture diagram -->
+        <div style="margin:28px 0; overflow-x:auto;">
+          <svg viewBox="0 0 760 700" style="width:100%; min-width:560px; height:auto; font-family:var(--font-mono);" role="img" aria-label="Three-tier architecture diagram: Internet, Presentation Tier (WAF/CDN, ALB, Web Server) in a public subnet, Application Tier (App Servers) in a private subnet, and Data Tier (Primary DB, Read Replica, Backup) in an isolated subnet.">
+            <defs>
+              <polygon id="arrowhead-shape" points="0,0 10,5 0,10" />
+            </defs>
+
+            <!-- Internet -->
+            <rect x="290" y="8" width="180" height="38" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+            <text x="380" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)">INTERNET / USERS</text>
+
+            <!-- Arrow 1 -->
+            <line x1="380" y1="46" x2="380" y2="76" stroke="var(--accent)" stroke-width="2"/>
+            <polygon points="374,72 386,72 380,80" fill="var(--accent)"/>
+            <text x="392" y="66" font-size="10.5" fill="var(--text-muted)">HTTPS :443</text>
+
+            <!-- Tier 1 container -->
+            <rect x="20" y="80" width="720" height="172" rx="14" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="380" y="104" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent)">PRESENTATION TIER (DMZ)</text>
+            <text x="380" y="121" text-anchor="middle" font-size="10.5" fill="var(--text-dim)">PUBLIC SUBNET — internet-facing, hardened, minimal exposure</text>
+
+            <rect x="45" y="138" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="140" y="170" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">WAF / CDN</text>
+            <text x="140" y="188" text-anchor="middle" font-size="10" fill="var(--text-muted)">(Cloudflare /</text>
+            <text x="140" y="202" text-anchor="middle" font-size="10" fill="var(--text-muted)">AWS WAF)</text>
+
+            <rect x="285" y="138" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="380" y="170" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">ALB</text>
+            <text x="380" y="188" text-anchor="middle" font-size="10" fill="var(--text-muted)">(Load Balancer</text>
+            <text x="380" y="202" text-anchor="middle" font-size="10" fill="var(--text-muted)">+ TLS term)</text>
+
+            <rect x="525" y="138" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="620" y="170" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">Web Server</text>
+            <text x="620" y="188" text-anchor="middle" font-size="10" fill="var(--text-muted)">(Nginx,</text>
+            <text x="620" y="202" text-anchor="middle" font-size="10" fill="var(--text-muted)">Apache)</text>
+
+            <line x1="235" y1="185" x2="283" y2="185" stroke="var(--accent-2)" stroke-width="2"/>
+            <polygon points="277,180 289,185 277,190" fill="var(--accent-2)"/>
+            <line x1="475" y1="185" x2="523" y2="185" stroke="var(--accent-2)" stroke-width="2"/>
+            <polygon points="517,180 529,185 517,190" fill="var(--accent-2)"/>
+
+            <!-- Arrow 2 -->
+            <line x1="380" y1="252" x2="380" y2="282" stroke="var(--accent)" stroke-width="2"/>
+            <polygon points="374,278 386,278 380,286" fill="var(--accent)"/>
+            <text x="392" y="272" font-size="10.5" fill="var(--text-muted)">HTTP :8080 (internal only)</text>
+
+            <!-- Tier 2 container -->
+            <rect x="20" y="286" width="720" height="172" rx="14" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="380" y="310" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-2)">APPLICATION TIER</text>
+            <text x="380" y="327" text-anchor="middle" font-size="10.5" fill="var(--text-dim)">PRIVATE SUBNET — no internet route, outbound via NAT only</text>
+
+            <rect x="45" y="344" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="140" y="376" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">App Server</text>
+            <text x="140" y="394" text-anchor="middle" font-size="10" fill="var(--text-muted)">(Node / Django /</text>
+            <text x="140" y="408" text-anchor="middle" font-size="10" fill="var(--text-muted)">Spring)</text>
+
+            <rect x="285" y="344" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="380" y="376" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">App Server</text>
+            <text x="380" y="394" text-anchor="middle" font-size="10" fill="var(--text-muted)">(Node / Django /</text>
+            <text x="380" y="408" text-anchor="middle" font-size="10" fill="var(--text-muted)">Spring)</text>
+
+            <rect x="525" y="344" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="620" y="376" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">App Server</text>
+            <text x="620" y="394" text-anchor="middle" font-size="10" fill="var(--text-muted)">(Node / Django /</text>
+            <text x="620" y="408" text-anchor="middle" font-size="10" fill="var(--text-muted)">Spring)</text>
+
+            <!-- Arrow 3 -->
+            <line x1="380" y1="458" x2="380" y2="488" stroke="var(--accent)" stroke-width="2"/>
+            <polygon points="374,484 386,484 380,492" fill="var(--accent)"/>
+            <text x="392" y="478" font-size="10.5" fill="var(--text-muted)">DB protocol :5432 / 3306 / 27017</text>
+
+            <!-- Tier 3 container -->
+            <rect x="20" y="492" width="720" height="172" rx="14" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="380" y="516" text-anchor="middle" font-size="14" font-weight="700" fill="var(--accent-3)">DATA TIER</text>
+            <text x="380" y="533" text-anchor="middle" font-size="10.5" fill="var(--text-dim)">ISOLATED SUBNET — no internet, no NAT, DB traffic only</text>
+
+            <rect x="45" y="550" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="140" y="582" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">Primary DB</text>
+            <text x="140" y="600" text-anchor="middle" font-size="10" fill="var(--text-muted)">(RDS/Aurora</text>
+            <text x="140" y="614" text-anchor="middle" font-size="10" fill="var(--text-muted)">Primary)</text>
+
+            <rect x="285" y="550" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="380" y="582" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">Read Replica</text>
+
+            <rect x="525" y="550" width="190" height="94" rx="10" fill="var(--bg-1)" stroke="var(--border)" stroke-width="1.5"/>
+            <text x="620" y="582" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">Backup /</text>
+            <text x="620" y="600" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--text)">Snapshot</text>
+            <text x="620" y="618" text-anchor="middle" font-size="10" fill="var(--text-muted)">(Encrypted)</text>
+
+            <line x1="235" y1="597" x2="283" y2="597" stroke="var(--accent-2)" stroke-width="2"/>
+            <polygon points="277,592 289,597 277,602" fill="var(--accent-2)"/>
+          </svg>
+        </div>
+
+        <div class="skills-grid reveal" style="margin-bottom:10px;">
+          <div class="skill-card">
+            <h4>Tier 1 — Presentation</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">WAF</span>
+              <span class="skill-tag">DDoS protection</span>
+              <span class="skill-tag">TLS termination</span>
+              <span class="skill-tag">Rate limiting</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4>Tier 2 — Application</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">IAM roles</span>
+              <span class="skill-tag">Secrets management</span>
+              <span class="skill-tag">Input validation</span>
+              <span class="skill-tag">mTLS</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4>Tier 3 — Data</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Encryption at rest/transit</span>
+              <span class="skill-tag">RLS</span>
+              <span class="skill-tag">Least-privilege DB users</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4>Cross-cutting</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">VPC with SG isolation between every tier</span>
+              <span class="skill-tag">CloudTrail + structured app logs → SIEM</span>
+              <span class="skill-tag">GuardDuty across all resources</span>
+              <span class="skill-tag">KMS encryption for data at rest</span>
+            </div>
+          </div>
+        </div>
+
+        <p>Three rules before we start: every tier only talks to the tier directly adjacent to it, no tier gets more permissions than it needs for its specific job, and everything is logged — but not everything needs to be logged at the same cost.</p>
+
+        <h2>Why CIA Triad Maps Cleanly to Three Tiers</h2>
+        <p>The three-tier architecture isn't just a performance decision. It's a security architecture, whether you designed it that way or not. Each tier has a different relationship with the CIA triad — and understanding that relationship is what separates a secure deployment from a compliant-on-paper one.</p>
+
+        <p><strong>Tier 1 (Presentation):</strong> Availability is your primary concern. This is what users hit. DDoS protection, rate limiting, and redundancy live here. If this tier goes down, the business feels it immediately.</p>
+
+        <p><strong>Tier 2 (Application):</strong> Integrity is your primary concern. Business logic lives here, and business logic is where manipulation attacks happen. Price tampering, workflow bypass, race conditions, injection attacks — all exploited at this layer.</p>
+
+        <p><strong>Tier 3 (Data):</strong> Confidentiality is your primary concern. The data is what attackers want. Encryption, access controls, and audit trails belong here. A breach at this layer is the breach that ends up in the news.</p>
+
+        <p>None of these concerns are exclusive — you need all three at all three tiers. But knowing which is primary tells you where to spend your effort first.</p>
+
+        <h2>STRIDE at Each Layer</h2>
+        <p>STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) is a threat modeling framework, not a checklist. Running it against a three-tier architecture gives you a structured way to think about what can go wrong at each boundary rather than guessing.</p>
+
+        <h3>Tier 1 — Presentation Layer</h3>
+        <table>
+          <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Spoofing</strong></td><td>Attacker forges a client IP or impersonates a trusted CDN</td><td>Validate <code>X-Forwarded-For</code> headers server-side; pin trusted CDN IP ranges in security groups</td></tr>
+            <tr><td><strong>Tampering</strong></td><td>HTTP request modification before it reaches the ALB</td><td>WAF rules; signed cookies; TLS everywhere, no unencrypted path</td></tr>
+            <tr><td><strong>Repudiation</strong></td><td>User denies making a request</td><td>Access logs with IP, user agent, timestamp, request ID; tie to session</td></tr>
+            <tr><td><strong>Information Disclosure</strong></td><td>Server version headers, error stack traces in responses</td><td>Strip <code>Server</code> and <code>X-Powered-By</code> headers; custom error pages that reveal nothing</td></tr>
+            <tr><td><strong>Denial of Service</strong></td><td>Volumetric attack, slowloris, large payloads</td><td>WAF rate limiting, DDoS scrubbing (Shield Advanced), payload size caps, connection limits</td></tr>
+            <tr><td><strong>Elevation of Privilege</strong></td><td>SSRF through the web server reaching internal metadata</td><td>Enforce IMDSv2; block 169.254.169.254 at the security group; no server-side URL fetching without strict allowlisting</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Tier 2 — Application Layer</h3>
+        <table>
+          <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Spoofing</strong></td><td>JWT forgery, session token theft, credential stuffing</td><td>Short-lived JWTs with RS256; HttpOnly + Secure + SameSite=Strict cookies; JTI revocation list</td></tr>
+            <tr><td><strong>Tampering</strong></td><td>SQL injection, mass assignment, business logic manipulation</td><td>Parameterised queries everywhere; DTO allowlists; atomic DB operations for financial state</td></tr>
+            <tr><td><strong>Repudiation</strong></td><td>"I never made that transaction"</td><td>Structured audit log capturing who, what, when, from where, with what auth token</td></tr>
+            <tr><td><strong>Information Disclosure</strong></td><td>Verbose error messages leaking table names, stack traces</td><td>Production error handler returns opaque IDs; detailed errors only to log infrastructure</td></tr>
+            <tr><td><strong>Denial of Service</strong></td><td>Resource exhaustion through expensive queries, no pagination</td><td>Query complexity limits; mandatory pagination; async processing for heavy operations</td></tr>
+            <tr><td><strong>Elevation of Privilege</strong></td><td>IDOR — accessing another user's resources</td><td>Scope every DB query to the authenticated user; Row-Level Security as a second enforcement layer</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Tier 3 — Data Layer</h3>
+        <table>
+          <thead><tr><th>Threat</th><th>How it manifests</th><th>Control</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Spoofing</strong></td><td>App server impersonating a more privileged DB user</td><td>Separate DB credentials per application service; no shared superuser account</td></tr>
+            <tr><td><strong>Tampering</strong></td><td>Direct DB modification bypassing application controls</td><td>DB audit log for every write; RLS policies enforced below the application layer</td></tr>
+            <tr><td><strong>Repudiation</strong></td><td>DBA denies running a query that modified data</td><td>DB audit log with query text, timestamp, and originating user; append-only audit table for sensitive operations</td></tr>
+            <tr><td><strong>Information Disclosure</strong></td><td>DB snapshot made public; unencrypted backup to S3</td><td>Encryption at rest (KMS); no public snapshots; S3 Block Public Access for backup bucket</td></tr>
+            <tr><td><strong>Denial of Service</strong></td><td>Query flooding exhausting connection pool</td><td>Connection pooling (PgBouncer/RDS Proxy); query timeout limits; read replica for reporting</td></tr>
+            <tr><td><strong>Elevation of Privilege</strong></td><td>App user running DDL or accessing schemas it shouldn't</td><td>Principle of least privilege: the application's DB user can only SELECT/INSERT/UPDATE on its own schema, nothing else</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Tier 1: Securing the Presentation Layer</h2>
+
+        <h3>TLS — Get This Completely Right</h3>
+        <p>TLS is table stakes, but table stakes that people still misconfigure. Terminate TLS at the ALB with a certificate from ACM (automatic renewal, no manual certificate management). Between the ALB and your web servers, you have a choice: plain HTTP on an internal private network, or TLS again. The answer depends on your threat model. If you're handling regulated data or have compliance requirements (PCI-DSS, HIPAA), terminate TLS at every hop. If you're on a well-segmented VPC with no lateral movement risk, HTTP internally is often an acceptable trade-off that reduces operational complexity.</p>
+
+        <p>What is non-negotiable:</p>
+        <ul>
+          <li>TLS 1.2 minimum, TLS 1.3 preferred</li>
+          <li>No self-signed certificates in any environment (break trust validation habits)</li>
+          <li>HSTS header with a minimum of one year: <code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code></li>
+          <li>OCSP stapling enabled on the web server</li>
+        </ul>
+
+        <h3>Security Headers That Actually Matter</h3>
+        <p>Every response from your web servers should include:</p>
+        <pre><code>Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-{random}'; object-src 'none'
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()</code></pre>
+
+        <p>Remove <code>Server</code>, <code>X-Powered-By</code>, and <code>X-AspNet-Version</code>. These headers tell an attacker exactly what software version to look up CVEs for.</p>
+
+        <h3>WAF Configuration</h3>
+        <p>A WAF without tuning is a false sense of security. The AWS Managed Rules for Common Vulnerabilities are a decent starting point, but they'll generate false positives against legitimate traffic if you deploy them in block mode on day one. Start in count mode, review the logs for two weeks, suppress the false positives, then switch to block mode.</p>
+
+        <p>Rules that should always be in block mode regardless of false positive risk:</p>
+        <ul>
+          <li>SQL injection patterns</li>
+          <li>Log4j detection rules (yes, still)</li>
+          <li>Scanner/automated tool signatures</li>
+          <li>Requests without a User-Agent header (legitimate browsers always send one)</li>
+        </ul>
+
+        <p>Rate limiting rules:</p>
+        <ul>
+          <li>Per IP: 2,000 requests per 5-minute window for most APIs</li>
+          <li>Per IP for auth endpoints: 20 requests per 5 minutes, no exceptions</li>
+        </ul>
+
+        <h3>Network Segmentation</h3>
+        <p>Your presentation tier lives in a public subnet with an internet gateway. Your application tier does not. These two sentences describe the entire network security model for this tier. Any web server that needs to make an outbound internet request (to call a third-party API, for example) does it through a NAT Gateway in the public subnet, never through a direct internet route.</p>
+
+        <p>Security group rules for the web server:</p>
+        <pre><code>Inbound:
+  Port 443 from 0.0.0.0/0 (internet HTTPS — via ALB SG, not directly)
+  Port 80 from 0.0.0.0/0 (redirect to 443 only)
+
+Outbound:
+  Port 8080 to Application Tier SG (app traffic only)
+  Port 443 to 0.0.0.0/0 (HTTPS outbound for third-party calls, via NAT)</code></pre>
+
+        <p>The ALB security group should be the only thing that can reach port 443 on your web servers — not any IP, not any other SG, the specific ALB SG. Reference security groups, not IP ranges.</p>
+
+        <h2>Tier 2: Securing the Application Layer</h2>
+
+        <h3>Authentication and Session Management</h3>
+        <p>Your application servers are where authentication logic lives, and authentication is where most meaningful compromises begin. A few hard rules:</p>
+
+        <p><strong>JWT, if you use it:</strong> RS256 (asymmetric), never HS256 for distributed systems. Hardcode the algorithm in your verification code — never read it from the token header, because that's how algorithm-confusion attacks work. Short expiry (15 minutes to 1 hour) with revocable refresh tokens. Implement a JTI (JWT ID) blocklist in Redis for immediate session invalidation on logout.</p>
+
+        <p><strong>Session cookies:</strong> HttpOnly, Secure, SameSite=Strict. The SameSite attribute alone eliminates the vast majority of CSRF risk without a separate token mechanism. Add a CSRF token for any form that changes state, as defense in depth.</p>
+
+        <p><strong>Secrets:</strong> Nothing hardcoded. Nothing in environment files committed to git. Everything in a secrets manager (AWS Secrets Manager or HashiCorp Vault) with automatic rotation and audit on every access. The application fetches secrets at startup with a short-lived IAM role — not long-lived access keys, roles.</p>
+
+        <h3>Input Validation and Injection Prevention</h3>
+        <p>Every input that enters your application is potentially hostile. Validate at the boundary:</p>
+        <pre><code># The difference between vulnerable and safe is one line
+# Vulnerable:
+cursor.execute(f"SELECT * FROM orders WHERE user_id = {user_id}")
+
+# Safe — the value is bound after the query structure is compiled
+cursor.execute("SELECT * FROM orders WHERE user_id = %s", (user_id,))</code></pre>
+
+        <p>For mass assignment (a frequently overlooked but critical vulnerability): never bind a request body directly to a database model. Define an explicit list of fields the API is allowed to set. If <code>role</code> or <code>isAdmin</code> can't be in that list, they can't be set by a client no matter what the request contains.</p>
+
+        <h3>Service-to-Service Authentication</h3>
+        <p>Your application tier calls your data tier. How do those calls authenticate? If the answer is "a shared username and password in a config file," you have work to do.</p>
+
+        <p>Each application service should have its own database credential with the minimum permissions it needs. A service that only reads data gets a read-only user. A service that writes orders gets INSERT/UPDATE on the orders table, nothing else. If a service is compromised, its credential's blast radius is bounded by what that credential can actually do.</p>
+
+        <p>For service-to-service HTTP calls within the application tier (microservices calling microservices), mutual TLS with SPIFFE/SPIRE identities is the right answer at scale. At smaller scale, a signed JWT passed in the Authorization header achieves the same property: the receiving service can verify the caller's identity without needing a shared secret.</p>
+
+        <h2>Tier 3: Securing the Data Layer</h2>
+
+        <h3>Network Isolation First</h3>
+        <p>Your database should be completely invisible from the internet and from the presentation tier. The security group for the database accepts connections on the DB port from one source: the application tier security group. That's the entire rule set. There is no internet access, no NAT, no management ports open from anywhere other than a bastion or AWS Systems Manager Session Manager.</p>
+
+        <h3>Encryption Everywhere</h3>
+        <p><strong>At rest:</strong> Enable encryption on your RDS instances (AES-256, KMS-managed keys). This is a checkbox on creation — there's no reason not to. EBS volumes backing the instances are encrypted. Snapshots inherit the encryption of the source. Unencrypted snapshots that are accidentally made public are one of the most common data breach vectors in cloud environments.</p>
+
+        <p><strong>In transit:</strong> Require TLS for all connections to the database. In RDS this is enforced with a parameter group setting: <code>rds.force_ssl = 1</code>. Connections that don't present a certificate are rejected. There is no "well, it's on an internal network, it's probably fine" — internal networks get compromised, and then your database traffic is readable to whoever is on that network.</p>
+
+        <p><strong>Key management:</strong> Use KMS with a customer-managed key (CMK) for sensitive data. This lets you revoke access to data by deleting the key — useful for GDPR right-to-erasure requests and for crypto-shredding when offboarding a tenant.</p>
+
+        <h3>Row-Level Security</h3>
+        <p>PostgreSQL Row-Level Security (RLS) is one of the most underused security controls in web applications. It enforces data isolation at the database engine level, below the application layer:</p>
+        <pre><code>-- Enable RLS on the sensitive table
+ALTER TABLE customer_data ENABLE ROW LEVEL SECURITY;
+
+-- Policy: the application can only see rows belonging to
+-- the tenant set in the session context
+CREATE POLICY tenant_isolation ON customer_data
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- The application sets the context before each query
+SET app.tenant_id = '550e8400-e29b-41d4-a716-446655440000';</code></pre>
+
+        <p>Now, even if a bug in the application drops a WHERE clause, the database adds it back automatically. Cross-tenant data leakage is architecturally prevented, not just application-level prevented.</p>
+
+        <h2>Logging Strategy: What to Enable, What to Skip</h2>
+        <p>Logging everything is expensive and often counterproductive — the alerts you care about drown in noise. Logging nothing means you're flying blind during an incident. The right answer is tiered logging with cost controls.</p>
+
+        <h3>Tier 1 — Presentation</h3>
+        <p><strong>Enable (always):</strong></p>
+        <ul>
+          <li>ALB access logs → S3 (cost: low, $0.01 per GB stored). Every request, every response code, every backend target. This is your forensic baseline.</li>
+          <li>WAF logs → S3 or Kinesis Firehose (cost: ~$0.60 per million requests). You need to know what the WAF is blocking to tune rules and to prove you were under attack.</li>
+          <li>CloudFront or CDN access logs if applicable.</li>
+        </ul>
+        <p><strong>Enable selectively:</strong></p>
+        <ul>
+          <li>VPC Flow Logs at the REJECT level only (accepted traffic is noise at scale). Set a 7-day retention in CloudWatch Logs before archiving to S3.</li>
+        </ul>
+        <p><strong>Skip unless regulated:</strong></p>
+        <ul>
+          <li>Full packet capture — prohibitively expensive and rarely necessary for most applications.</li>
+        </ul>
+
+        <h3>Tier 2 — Application</h3>
+        <p><strong>Enable (always):</strong></p>
+        <ul>
+          <li>Structured application logs in JSON format. Not <code>console.log("User logged in")</code>. Every log line should have: <code>timestamp</code>, <code>request_id</code>, <code>user_id</code>, <code>action</code>, <code>outcome</code>, <code>source_ip</code>. A request ID that propagates through every service call is what makes incident investigation possible.</li>
+          <li>Authentication events: every login attempt, every token refresh, every logout, every failed auth. These are cheap to log and invaluable for detecting credential stuffing.</li>
+        </ul>
+        <p><strong>Enable selectively:</strong></p>
+        <ul>
+          <li>Full request/response logging for payment or financial endpoints. Not for general API traffic — the volume is too high and the cost compounds.</li>
+          <li>Slow query logs from the application ORM, with a threshold of 500ms.</li>
+        </ul>
+        <p><strong>Skip:</strong></p>
+        <ul>
+          <li>Logging request bodies that contain passwords or card numbers. Obviously. But worth stating because it happens.</li>
+        </ul>
+
+        <h3>Tier 3 — Data</h3>
+        <p><strong>Enable (always):</strong></p>
+        <ul>
+          <li>RDS Enhanced Monitoring (1-second granularity — costs about $14/month per instance, worth it).</li>
+          <li>RDS audit log (pgaudit for PostgreSQL): log all DDL statements and authentication events always. Log DML (SELECT, INSERT, UPDATE, DELETE) on tables containing PII or financial data, not on all tables.</li>
+          <li>CloudTrail data events for S3 buckets containing sensitive data (RDS snapshots, backups).</li>
+        </ul>
+        <p><strong>Skip unless required:</strong></p>
+        <ul>
+          <li>Logging every single SELECT on high-traffic tables. The cost scales linearly with queries and will surprise you at the end of the month.</li>
+        </ul>
+
+        <h3>Cross-Cutting: Log Centralization and Retention</h3>
+        <p>Ship all logs to a centralized destination (CloudWatch Logs for querying, S3 for long-term storage). Crucially, your production account should not be able to delete its own logs. Set up a separate security account that receives logs via cross-account CloudTrail and S3 replication, with object lock enabled. An attacker who compromises your production environment can disable CloudTrail in that account — they cannot touch the copy in a separate account they've never been given access to.</p>
+
+        <p>Retention by cost:</p>
+        <ul>
+          <li>Hot (CloudWatch Logs, queryable): 30 days</li>
+          <li>Warm (S3 Standard): 90 days</li>
+          <li>Cold (S3 Glacier): 1–7 years depending on regulatory requirements</li>
+        </ul>
+
+        <h2>What Happens During an Attack</h2>
+        <p>Understanding what an active attack looks like in a three-tier architecture is how you build the defenses that actually matter. Most attackers don't kick in the front door — they probe systematically, find the gap, and move laterally.</p>
+
+        <h3>A Realistic Attack Scenario</h3>
+        <p>An attacker identifies your application through subdomain enumeration. They find an endpoint that was deployed for a one-time integration and never decommissioned — a forgotten webhook receiver running on the application tier without authentication. Through this endpoint they can make the application server make outbound HTTP requests (SSRF).</p>
+
+        <p><strong>Step 1 — Reconnaissance:</strong> The first requests come from a residential proxy network, rotating IPs, with realistic user agents. Your WAF rate limiting doesn't trigger because each IP only makes a handful of requests. What triggers instead: a spike in 404 responses to paths that don't exist in your application. This should be a monitored metric.</p>
+
+        <p><strong>Step 2 — SSRF to metadata:</strong> Through the SSRF endpoint, the attacker hits <code>http://169.254.169.254/latest/meta-data/iam/security-credentials/</code>. If IMDSv2 is not enforced, they get the application server's IAM role credentials. This is the pivot point — everything changes here.</p>
+
+        <p><strong>Step 3 — Lateral movement via IAM:</strong> With the instance role credentials, they call AWS APIs from their own machine. Depending on what the role can do, this is either a dead end (if the role is least-privilege) or a path to the rest of your infrastructure.</p>
+
+        <p><strong>What stops this at each tier:</strong></p>
+        <ul>
+          <li>Tier 1: Attack surface monitoring that would have found the forgotten endpoint</li>
+          <li>Tier 2: IMDSv2 enforcement (PUT request required before GET — SSRF can't do the PUT)</li>
+          <li>Tier 3: IAM role scoped to only the permissions the application actually needs</li>
+        </ul>
+
+        <h3>Detection Signals to Watch</h3>
+        <p>The signals you should have alerts on that would catch this pattern:</p>
+        <pre><code>1. First-seen source IP accessing sensitive endpoints
+   Signal: any auth/API endpoint accessed from an IP not seen in the prior 7 days
+   Alert: Medium (batch hourly, not real-time)
+
+2. Application making outbound HTTP requests to RFC-1918 or
+   metadata IPs
+   Signal: VPC Flow Logs showing app server connecting to 169.254.x.x
+   Alert: Critical (real-time)
+
+3. IAM credentials used from a non-EC2 IP
+   Signal: CloudTrail showing API calls from instance profile credentials
+   but originating from an IP not belonging to your EC2 instances
+   Alert: Critical (real-time) — this is the smoke alarm
+
+4. Spike in 4xx responses from a single source ASN
+   Signal: ALB access logs grouped by AS number
+   Alert: Medium (5-minute window)</code></pre>
+
+        <p>GuardDuty covers items 2 and 3 out of the box. Items 1 and 4 require custom SIEM queries or CloudWatch metric filters.</p>
+
+        <h2>Patching and Hot-Swapping During an Attack Without Downtime</h2>
+        <p>This is the question that separates teams who have practiced this from teams who only think they have. Patching during an active incident is not about urgency — it's about the operational discipline you built before the incident started.</p>
+
+        <h3>The Prerequisite: Immutable Infrastructure</h3>
+        <p>If your instances are snowflakes — configured by hand, with SSH logins and manual software installs — then patching during an incident means logging into production servers while an attacker may be watching. That's not a place you want to be.</p>
+
+        <p>The right model: your EC2 instances are baked from a golden AMI. Every software change produces a new AMI. Patching means deploying a new AMI, not running <code>apt upgrade</code> on a live server.</p>
+
+        <h3>The Hot-Swap Pattern</h3>
+        <p>Here's how you push a patched version to any tier without dropping a single production request:</p>
+
+        <p><strong>For the Application Tier (the most common patch target):</strong></p>
+        <pre><code>Current state:
+  ALB → Target Group A → [App-1, App-2, App-3] (running vulnerable version)
+
+Step 1: Build the patched AMI
+  EC2 Image Builder runs, patches the OS/application, validates, publishes AMI-v2.
+
+Step 2: Create a new Launch Template version pointing to AMI-v2.
+
+Step 3: Initiate an ASG Instance Refresh with these parameters:
+  MinHealthyPercentage: 80
+  InstanceWarmup: 60 seconds
+  Checkpoint (optional): pause after 20% to verify health
+
+  What happens:
+  - ASG launches App-4 from AMI-v2
+  - Waits for App-4 to pass health checks (60s warmup)
+  - ALB starts sending traffic to App-4
+  - ASG drains App-1 (connection draining: 30s)
+  - App-1 terminated after all connections close
+  - Repeats for App-2, App-3
+
+Current state at no point during this process:
+  - Zero production requests dropped
+  - At minimum 80% of original capacity always serving
+  - Traffic never routes to an instance that hasn't passed health checks</code></pre>
+
+        <p>The key detail is connection draining. When the ALB deregisters an instance, it doesn't terminate connections mid-flight. It stops sending new connections and waits up to your configured deregistration delay (default 300 seconds, set to 30-60 for most applications) for existing connections to finish. Only then does the ASG terminate the instance.</p>
+
+        <p><strong>For a Zero-Day That Requires a Compensating Control Before the Patch is Ready:</strong></p>
+        <p>Sometimes the patch takes hours to build and validate, but the attack is happening now. Compensating controls buy time without touching your instances at all:</p>
+        <pre><code>1. WAF rule: block the specific request pattern that exploits the vulnerability
+   Deploy in minutes. No instance changes.
+   This is why WAF rules need to be deployable as code, not via console clicks.
+
+2. Feature flag: if the vulnerable feature can be toggled, disable it at the
+   application config layer (SSM Parameter Store update, no deploy required).
+
+3. Network ACL: if the attack is coming from an identifiable IP range,
+   block at the subnet level. This works in addition to WAF for volumetric attacks.</code></pre>
+
+        <p>A compensating control is not a fix. It is a firebreak that gives your team time to build and validate the actual fix without making a hurried, error-prone change to production infrastructure during an active incident.</p>
+
+        <h3>For the Database Tier</h3>
+        <p>Database patching is the hardest because it's stateful. The procedure for RDS:</p>
+        <pre><code>1. Enable Multi-AZ if not already (this should always be on for production)
+   With Multi-AZ, there's already a synchronous standby instance.
+
+2. Initiate a maintenance window patch:
+   - RDS performs a failover to the standby (60-120 seconds of reconnection)
+   - The primary is patched
+   - Another failover returns the primary to the original AZ
+   Total downtime: the reconnection time, not the patch time
+
+3. For major version upgrades (more disruptive):
+   - Create a read replica running the new version
+   - Validate application compatibility against the replica
+   - Promote the replica to primary
+   - Update connection strings (or use a proxy that handles this)
+   This is the same hot-swap pattern as the application tier — parallel deployment, cutover when ready</code></pre>
+
+        <p>For attacks specifically targeting the database (SQL injection leading to data exfiltration): the immediate response is not to patch — it's to revoke the application's database credential and issue a new one. AWS Secrets Manager with rotation can do this programmatically. The application picks up the new credential automatically without a restart if you implement proper credential fetching with retry logic.</p>
+
+        <h2>The Short List: What You Must Have Before You Go Live</h2>
+        <p>A three-tier architecture is not inherently secure. It's a structure that makes security controls straightforward to implement if you know where they go. Here's the minimum bar:</p>
+
+        <p><strong>Network:</strong></p>
+        <ul>
+          <li><input type="checkbox" disabled> Three subnets, three security groups, no cross-tier traffic except on the expected port and direction</li>
+          <li><input type="checkbox" disabled> No direct internet access from application or database tier</li>
+          <li><input type="checkbox" disabled> IMDSv2 enforced on all EC2 instances</li>
+          <li><input type="checkbox" disabled> VPC Flow Logs enabled at REJECT level</li>
+        </ul>
+
+        <p><strong>Identity and Access:</strong></p>
+        <ul>
+          <li><input type="checkbox" disabled> No long-lived IAM user access keys; IAM roles for all workloads</li>
+          <li><input type="checkbox" disabled> Separate database credentials per service, minimum required permissions</li>
+          <li><input type="checkbox" disabled> MFA on all human IAM accounts; SCPs preventing root from being used for workloads</li>
+        </ul>
+
+        <p><strong>Data:</strong></p>
+        <ul>
+          <li><input type="checkbox" disabled> Encryption at rest on all RDS instances and EBS volumes</li>
+          <li><input type="checkbox" disabled> TLS enforced for all database connections</li>
+          <li><input type="checkbox" disabled> No public RDS snapshots (ever)</li>
+          <li><input type="checkbox" disabled> S3 Block Public Access enabled account-wide</li>
+        </ul>
+
+        <p><strong>Detection:</strong></p>
+        <ul>
+          <li><input type="checkbox" disabled> CloudTrail enabled in all regions, log validation on, shipped to a separate account</li>
+          <li><input type="checkbox" disabled> GuardDuty enabled organization-wide</li>
+          <li><input type="checkbox" disabled> Alerts on: CloudTrail disabled, root login, IAM credentials used from unexpected IP, security group opens 0.0.0.0/0</li>
+        </ul>
+
+        <p><strong>Operational Readiness:</strong></p>
+        <ul>
+          <li><input type="checkbox" disabled> ASG with health checks for every application tier service</li>
+          <li><input type="checkbox" disabled> Connection draining configured on ALB target groups</li>
+          <li><input type="checkbox" disabled> One practiced failover drill for the database tier before go-live</li>
+        </ul>
+
+        <h2>Final Thought</h2>
+        <p>The three-tier architecture has been the dominant pattern in web application infrastructure for twenty years for good reason: it creates natural security boundaries that are hard to mess up accidentally once you've made the right initial decisions. The subnet isolation, the security group rules, the IAM boundaries — these are controls that protect you even when the application code has a bug, because the architecture limits what that bug can be used to reach.</p>
+
+        <p>Security doesn't come from the architecture diagram. It comes from the discipline of enforcing the boundaries the diagram describes. The presentation tier talks to the application tier, the application tier talks to the database tier, and nothing else is normal — which means anything else is a signal worth investigating.</p>
+
+        <p>That's the actual security posture. Not a list of tools. Enforced boundaries, logged violations, practiced responses.</p>
+
+      </div>
+
+      <footer class="post-footer">
+        <div class="post-tags">
+          <a href="/blog/#cloud-security">#Cloud Security</a>
+        </div>
+        <div class="post-share">
+          <span>Share:</span>
+          <a href="https://twitter.com/intent/tweet?text=Securing%20the%20Three-Tier%20Architecture&url=https://yogendra-swaroop.tech/blog/securing-three-tier-architecture.html" target="_blank" rel="nofollow noopener"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://yogendra-swaroop.tech/blog/securing-three-tier-architecture.html" target="_blank" rel="nofollow noopener"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6z"/></svg></a>
+        </div>
+      </footer>
+
+      <section class="author-box">
+        <img src="/assets/img/avatar.jpeg" alt="Yogendra Swaroop Srivastava">
+        <div>
+          <div class="author-box-name">Yogendra Swaroop Srivastava</div>
+          <p>Senior security engineer writing about application security, offensive tradecraft and detection engineering.</p>
+        </div>
+      </section>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="footer-about">
+      <div class="brand">
+        <span class="brand-mark">Y</span>
+        <span>Yogendra Swaroop Srivastava</span>
+      </div>
+      <p>Senior security engineer writing about application security, offensive tradecraft and detection engineering.</p>
+      <div class="footer-social">
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6z"/></svg></a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener" aria-label="Twitter"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+        <a href="mailto:yogendra.swaroop.srivastava@gmail.com" aria-label="Email"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/series/">Series</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="footer-col">
+        <h4>Elsewhere</h4>
+        <a href="/Yogendra-Srivastava-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener">Twitter</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap site-footer-bottom">
+    <p>&copy; <span id="year"></span> Yogendra Swaroop Srivastava. All rights reserved.</p>
+    <p>Built by hand — no framework, no bloat.</p>
+  </div>
+</footer>
+
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
