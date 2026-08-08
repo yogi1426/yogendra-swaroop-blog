@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <defs>
+    <linearGradient id="wbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0f14"/>
+      <stop offset="100%" stop-color="#111a24"/>
+    </linearGradient>
+    <radialGradient id="wglow" cx="15%" cy="0%" r="75%">
+      <stop offset="0%" stop-color="#2ee6a6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#2ee6a6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="320" rx="18" fill="url(#wbg)"/>
+  <rect width="600" height="320" rx="18" fill="url(#wglow)"/>
+  <rect x="1" y="1" width="598" height="318" rx="17" fill="none" stroke="#1c2733" stroke-width="1.5"/>
+
+  <!-- title bar -->
+  <rect x="0" y="0" width="600" height="42" rx="18" fill="#0a0f16"/>
+  <rect x="0" y="24" width="600" height="18" fill="#0a0f16"/>
+  <circle cx="28" cy="21" r="6" fill="#ff5f56"/>
+  <circle cx="50" cy="21" r="6" fill="#ffbd2e"/>
+  <circle cx="72" cy="21" r="6" fill="#27c93f"/>
+  <text x="300" y="26" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#64798d">privesc.sh</text>
+  <line x1="0" y1="42" x2="600" y2="42" stroke="#1c2733" stroke-width="1"/>
+
+  <!-- terminal body -->
+  <g font-family="ui-monospace, monospace" font-size="16">
+    <text x="30" y="82"><tspan fill="#2ee6a6">root@target</tspan><tspan fill="#64798d">:~$</tspan> <tspan fill="#e7edf3">whoami</tspan></text>
+    <text x="30" y="116" fill="#c792ff" font-weight="700">nt authority\system</text>
+
+    <text x="30" y="160"><tspan fill="#2ee6a6">root@target</tspan><tspan fill="#64798d">:~$</tspan> <tspan fill="#e7edf3">cat /root/proof.txt</tspan></text>
+    <text x="30" y="194" fill="#7cc7ff">a1b2c3d4e5f60718293a4b5c6d7e8f90</text>
+
+    <text x="30" y="238"><tspan fill="#2ee6a6">root@target</tspan><tspan fill="#64798d">:~$</tspan> <tspan fill="#e7edf3">echo "try harder."</tspan></text>
+    <text x="30" y="272" fill="#94a3b3">try harder.<tspan fill="#2ee6a6">▌</tspan></text>
+  </g>
+</svg>
