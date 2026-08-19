@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How We Turned 'Are We Affected?' Into a Five-Minute Answer · Yogendra Swaroop Srivastava</title>
+<meta name="description" content="How we went from a two-day fire drill to a five-minute query for supply chain exposure — building a centralized SBOM inventory, team ownership tagging, a kill switch, and MCP-powered AI triage.">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="canonical" href="https://yogendra-swaroop.tech/blog/sbom-supply-chain-security.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How We Turned 'Are We Affected?' Into a Five-Minute Answer">
+<meta property="og:description" content="How we went from a two-day fire drill to a five-minute query for supply chain exposure — building a centralized SBOM inventory, team ownership tagging, a kill switch, and MCP-powered AI triage.">
+<meta property="og:image" content="/assets/img/sbom-supply-chain-thumb.svg">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H37ZPM51C3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H37ZPM51C3');
+</script>
+</head>
+<body>
+<div class="bg-fx"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark">Y</span>
+      <span>Yogendra<span class="brand-dot">.</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/blog/" class="active">Blog</a>
+      <a href="/series/">Series</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <div class="header-actions">
+      <a class="icon-link" href="https://github.com/yogi1426" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+      <a class="btn btn-primary btn-sm" href="/about.html#contact">Get in touch</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="site-nav-mobile" id="site-nav-mobile">
+    <a href="/">Home</a>
+    <a href="/blog/">Blog</a>
+    <a href="/series/">Series</a>
+    <a href="/about.html">About</a>
+  </nav>
+</header>
+
+<main id="main">
+  <article>
+    <div class="post-wrap">
+      <header class="post-header">
+        <a class="post-series-badge" href="/series/security-engineering.html"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="4" rx="1"/><rect x="2" y="17" width="6" height="4" rx="1"/><rect x="16" y="17" width="6" height="4" rx="1"/><path d="M12 6v5M12 11H5v6M12 11h7v6"/></svg> Security Engineering</a>
+        <h1 class="post-title">How We Turned 'Are We Affected?' Into a Five-Minute Answer</h1>
+        <p class="post-description">How we went from "which repo uses this library?" being a two-day fire drill to a five-minute query — and what we're building next.</p>
+        <div class="post-meta">
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Aug 15, 2026</span>
+          <span><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> 10 min read</span>
+        </div>
+      </header>
+
+      <div class="post-content">
+
+        <h2>Why We Built This</h2>
+        <p>Every week there's a new CVE. And every week, there's that scramble: "Are we affected, and where?"</p>
+        <p>If your answer involves grepping Slack, pinging teams, or manually checking package files across hundreds of repos — you know the pain. This is what changed for us, how we changed it, and what we're building next. It's running in production today.</p>
+
+        <h2>What Is an SBOM?</h2>
+        <p>A Software Bill of Materials is a machine-readable inventory of every component in your software — direct and transitive dependencies, versions, licenses, origins. Think ingredients list: if a package gets compromised, you need to know which services contain it.</p>
+        <p><strong>CycloneDX</strong> and <strong>SPDX</strong> are the standard formats. Generating one is increasingly non-optional (Executive Order 14028, FDA guidance, security questionnaires all ask for it now).</p>
+        <p>The easy part is generating it. The hard part is what you do with it afterward.</p>
+
+        <h2>Why SBOMs Matter for Supply Chain Security</h2>
+        <p>Modern apps aren't written — they're assembled. A typical service has a handful of first-party files and hundreds of transitive dependencies. Supply chain attacks target exactly this surface: compromise one popular package and thousands of downstream consumers go down with it.</p>
+        <p>An SBOM connects the dots: CVEs map to components, components map to your services. Without that link, a CVE is noise. With it, it's an incident you can actually scope and respond to.</p>
+
+        <h2>How Do You Actually Generate an SBOM?</h2>
+        <p>The tooling is mature and mostly open-source — you don't need to build from scratch:</p>
+        <ul>
+          <li><strong>Trivy</strong> — Swiss Army knife. Scans filesystems, repos, and container images. Generates SBOMs and flags vulnerabilities in one pass.</li>
+          <li><strong>Syft</strong> (Anchore) — purpose-built for container and filesystem scanning. Pairs well with <strong>Grype</strong> for vulnerability matching.</li>
+          <li><strong>OWASP Dependency-Track/Dependency-Check</strong> — Dependency-Check handles code-level reporting; Dependency-Track is an SBOM management platform.</li>
+          <li><strong>Docker Scout</strong> — layer-level base image analysis.</li>
+          <li><strong>Language-native plugins</strong> — Maven's <code>cyclonedx-maven-plugin</code>, npm's <code>cyclonedx-npm</code>, etc.</li>
+        </ul>
+        <p>Most setups combine a code-level scan (manifests → app dependencies) with an image-level scan (filesystem layers → OS packages). The output (CycloneDX/SPDX JSON) feeds your centralized inventory, which is what makes it queryable and actionable.</p>
+
+        <h2>Where in the SDLC Should You Pull SBOM Data From?</h2>
+        <p>Pull from multiple points — each catches something the others miss:</p>
+        <div class="table-wrap">
+        <table>
+          <thead><tr><th>Source</th><th>Catches</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Code repos (SCA)</strong></td><td>Application-level dependencies</td></tr>
+            <tr><td><strong>Docker base images</strong></td><td>OS packages inherited before your code runs</td></tr>
+            <tr><td><strong>Final container images</strong></td><td>Actual composition of what ships</td></tr>
+            <tr><td><strong>CI/CD artifacts</strong></td><td>Build-time tools and plugins</td></tr>
+            <tr><td><strong>IaC / third-party binaries</strong></td><td>Anything outside package managers</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p>Ideally you're pulling both early (PR-time) and late (full image scan). Code-repo scanning alone misses base image drift; image scanning alone misses the chance to block bad additions before build time.</p>
+
+        <h2>Why a Centralized SBOM Inventory Is the Real Unlock</h2>
+        <p><strong>The value of an SBOM isn't in any single document — it's in aggregation.</strong></p>
+        <p>Without a central inventory, a critical CVE means: post in Slack → every team checks individually → some don't respond → some check wrong → compile manually → hours or days pass while attackers move.</p>
+        <p>With centralization, it becomes: search query → every affected repo, owning team, and a report → in minutes.</p>
+        <p><strong>This is the single biggest lever for reducing MTTR on supply chain incidents.</strong> Detection speed means nothing if correlation speed is slow. The inventory turns "we might be exposed" into "here are the 14 services affected, owned by these 5 teams, here's the report."</p>
+
+        <h2>How We Solved This: The SBOM Dashboard</h2>
+        <p>We built an internal dashboard to centralize the inventory across our codebase. Here's how:</p>
+
+        <p><strong>Dual scan points:</strong> We pull SBOM data at PR-time (catches new/changed dependencies before merge, shift-left visibility) and again on a full SAST scan (catches drift, base image changes, transitive updates that slip through). Both feed the same inventory.</p>
+
+        <p><strong>Team ownership tagging:</strong> Every repository is tagged with its owning team. This single decision makes the dashboard actionable — a vulnerability report is only useful if it comes with "and here's who to page."</p>
+
+        <p><strong>Repository dashboards:</strong> Each repo gets a view showing vulnerable packages vs. total packages, current component versions, associated CVEs, and license risk. Nothing fancy, but queryable.</p>
+
+        <p><strong>CSV and JSON exports:</strong> We built JSON export even before we had a use case for it, betting we'd eventually consume it programmatically. That bet paid off fast — JSON output is now feeding our pipelines.</p>
+
+        <p><strong>Kill switch:</strong> We can block a specific library and version at the pipeline level, even one we don't currently have in inventory. Shifts from detect-then-remediate to detect-then-prevent, which matters when zero-days are actively being exploited.</p>
+
+        <p><strong>API from day one:</strong> The dashboard has an API because we knew the UI alone wasn't going to be enough. That's what makes pipeline integration and everything downstream (like the MCP work below) possible without ripping everything apart later.</p>
+
+        <h2>The Problem We Didn't Anticipate</h2>
+        <p>We built this when supply chain attacks were occasional. That's not the case anymore — hundreds of newly-exploited libraries in a single day is the new normal.</p>
+        <p>Visibility is solved. Triage at scale isn't. Even with perfect inventory, manually checking hundreds of flagged packages a day — exposure, version, team ownership — is a time sink. The dashboard got us halfway there.</p>
+
+        <h2>Solving the Volume Problem: MCP-Powered Triage</h2>
+        <p>This is the part I'm most excited about. We built an <strong>MCP server</strong> that sits on top of the SBOM dashboard's API, authenticated via API key, and can be hooked directly into Claude, Cursor, or similar AI coding/agent tools.</p>
+        <p>The workflow now looks like this: a security engineer gives Claude a natural-language instruction — paste in a blog post, an advisory, or a raw list of CVEs. Claude extracts the library names and versions, queries our SBOM inventory via the MCP server, and returns a structured report: which libraries are vulnerable, what version each affected repo is running, whether that version is actually exploitable per our data, and which team owns the repo.</p>
+        <p>What used to be an hour of manual cross-referencing per advisory is now a conversation. This has meaningfully improved our MTTR further — not by making detection faster, but by collapsing the triage step that used to sit between "we saw an advisory" and "we know our exposure."</p>
+
+        <h2>What's Next</h2>
+        <p>Two things are on our roadmap, both aimed at the same goal: separating real risk from noise.</p>
+
+        <p><strong>Reachability analysis:</strong> Right now, if a vulnerable function exists in a dependency we use, it gets flagged — regardless of whether our code ever actually calls that function. This drives a meaningful false-positive rate and burns reviewer time on non-issues. Reachability analysis will let us say, definitively, "yes, this vulnerable code path is actually invoked by our application," which will sharpen prioritization significantly.</p>
+
+        <p><strong>24-hour threat feed automation:</strong> Commercial platforms like Wiz, Orca, and Upwind offer continuous scraping and correlation against emerging threats out of the box. If you don't have budget for a paid platform, building a lightweight internal equivalent — auto-scraping new advisories and immediately cross-referencing against your SBOM inventory — closes a real gap between "advisory published" and "you know your exposure," without waiting for a human to even ask the question.</p>
+
+        <p><strong>Auto-patching images and code fixes:</strong> This is the natural next step beyond detection: closing the loop by actually patching vulnerable base images and raising automated code-level fixes (dependency bumps, PRs) rather than just reporting the problem and handing it off. But this is also the hardest part to get right, because it sits directly at the tension point between security and engineering velocity. Auto-patching done carelessly can break builds, introduce regressions, or flood engineering teams with low-value PRs — which erodes trust in the tooling fast and defeats the purpose. So we're being deliberate about how we architect this: it needs to fit into engineering's existing workflow rather than bolt onto it, it needs confidence scoring before anything gets auto-merged, and it needs an easy opt-out/override path for teams. The goal is to reduce security toil without ever becoming the reason a team's sprint slipped — security and engineering agility have to be designed together, not traded off against each other.</p>
+
+        <p>We'll share what we learn as these land.</p>
+
+        <h2>Takeaway</h2>
+        <p>An SBOM you can't query in an incident is just documentation. The value isn't in generating the artifact — every scanner does that now. The real unlock is centralizing it, tagging ownership, and making it queryable in minutes. Fast enough to keep up with how fast attackers move.</p>
+        <p>We're not done building. Reachability analysis and threat-feed automation are real force multipliers. But even the current setup — inventory, team tagging, kill switch, and AI-assisted triage — has fundamentally changed our speed from "advisory drops" to "we know exactly where we stand."</p>
+        <p>If you're starting out: build the inventory first. Everything else compounds from there.</p>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="footer-about">
+      <div class="brand">
+        <span class="brand-mark">Y</span>
+        <span>Yogendra Swaroop Srivastava</span>
+      </div>
+      <p>Senior security engineer writing about application security, offensive tradecraft and detection engineering.</p>
+      <div class="footer-social">
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener" aria-label="GitHub"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19h-3v-9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.6 2 3.6 4.6z"/></svg></a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener" aria-label="Twitter"><svg class="icon icon-fill" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+        <a href="mailto:yogendra.swaroop.srivastava@gmail.com" aria-label="Email"><svg class="icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/series/">Series</a>
+        <a href="/about.html">About</a>
+      </div>
+      <div class="footer-col">
+        <h4>Elsewhere</h4>
+        <a href="/Yogendra-Srivastava-Resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a href="https://github.com/yogi1426" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/yogendra-swaroop-srivastava-8aa45874/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://twitter.com/yogendraswaroop" target="_blank" rel="noopener">Twitter</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap site-footer-bottom">
+    <p>&copy; <span id="year"></span> Yogendra Swaroop Srivastava. All rights reserved.</p>
+    <p>Built by hand — no framework, no bloat.</p>
+  </div>
+</footer>
+
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>
