@@ -24,7 +24,7 @@ teaming, penetration testing, and training people to break things properly.
 
 Sharing what I've learned, grouped by topic rather than dumped as one-off posts — offensive security
 fundamentals, cloud security, Kubernetes security, and security engineering as a craft — on
-[**blog.yogendra-swaroop.tech**](https://blog.yogendra-swaroop.tech).
+[**blog.yogendra-swaroop.com**](https://blog.yogendra-swaroop.com).
 
 ## Outside of work
 
