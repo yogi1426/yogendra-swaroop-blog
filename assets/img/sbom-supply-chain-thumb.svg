@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0f14"/>
+      <stop offset="100%" stop-color="#111a24"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2ee6a6" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#2ee6a6" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="340" fill="url(#bg)"/>
+  <rect width="600" height="200" fill="url(#glow)"/>
+
+  <!-- grid -->
+  <g stroke="#1c2733" stroke-width="1" opacity="0.6">
+    <line x1="0" y1="60" x2="600" y2="60"/>
+    <line x1="0" y1="120" x2="600" y2="120"/>
+    <line x1="0" y1="180" x2="600" y2="180"/>
+    <line x1="0" y1="240" x2="600" y2="240"/>
+    <line x1="0" y1="300" x2="600" y2="300"/>
+    <line x1="100" y1="0" x2="100" y2="340"/>
+    <line x1="200" y1="0" x2="200" y2="340"/>
+    <line x1="300" y1="0" x2="300" y2="340"/>
+    <line x1="400" y1="0" x2="400" y2="340"/>
+    <line x1="500" y1="0" x2="500" y2="340"/>
+  </g>
+
+  <!-- chain of dependency nodes feeding into a central inventory -->
+  <rect x="40" y="80" width="120" height="40" rx="8" fill="#0f151d" stroke="#7cc7ff" stroke-width="2"/>
+  <text x="100" y="105" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#e7edf3" font-weight="700">DEPENDENCY</text>
+
+  <rect x="40" y="150" width="120" height="40" rx="8" fill="#0f151d" stroke="#7cc7ff" stroke-width="2"/>
+  <text x="100" y="175" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#e7edf3" font-weight="700">BASE IMAGE</text>
+
+  <rect x="40" y="220" width="120" height="40" rx="8" fill="#0f151d" stroke="#7cc7ff" stroke-width="2"/>
+  <text x="100" y="245" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" fill="#e7edf3" font-weight="700">CI/CD</text>
+
+  <line x1="160" y1="100" x2="230" y2="150" stroke="#334454" stroke-width="2"/>
+  <line x1="160" y1="170" x2="230" y2="170" stroke="#334454" stroke-width="2"/>
+  <line x1="160" y1="240" x2="230" y2="190" stroke="#334454" stroke-width="2"/>
+
+  <rect x="230" y="120" width="150" height="100" rx="10" fill="#0f151d" stroke="#2ee6a6" stroke-width="2.5"/>
+  <text x="305" y="160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="15" fill="#e7edf3" font-weight="700">SBOM</text>
+  <text x="305" y="180" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#8aa0b3">INVENTORY</text>
+
+  <line x1="380" y1="170" x2="450" y2="170" stroke="#2ee6a6" stroke-width="2.5"/>
+  <polygon points="444,164 458,170 444,176" fill="#2ee6a6"/>
+
+  <rect x="450" y="120" width="120" height="100" rx="10" fill="#0f151d" stroke="#c792ff" stroke-width="2"/>
+  <text x="510" y="160" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#e7edf3" font-weight="700">TEAM +</text>
+  <text x="510" y="178" text-anchor="middle" font-family="ui-monospace, monospace" font-size="13" fill="#e7edf3" font-weight="700">CVE</text>
+  <text x="510" y="196" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="#8aa0b3">REPORT</text>
+</svg>
